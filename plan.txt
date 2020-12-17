@@ -1,0 +1,23 @@
+Tasks:
+	Project setup: - 1h
+		- repository
+		- plain maven project
+		- HelloWorld
+	Base abstraction: - 2h
+		- product definition
+		- API definition - interfaces
+	Tests: - 2h
+		- write tests for all subjects in assigment
+			- tax 12% on all producs (not include insurance)
+			- SIMs - Buy One Get One Free
+			- insurance discount 20% if you buy earphones
+			- no more than 10 SIM in single purchase
+		- additional tests
+	Implementation of base abstraction: - 4h
+		- model definition 
+		- API implementation
+	User Interface implementation: - 2h
+		- args parsing
+		- file parsing
+		- console print
+		- file print
