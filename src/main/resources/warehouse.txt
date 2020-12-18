@@ -1,0 +1,5 @@
+1;SIM card;20;CHF
+0;phone case;10;CHF
+2;phone insurance;120;CHF;2
+3;wired earphones;30;CHF
+3;wireless earphones;50;CHF
