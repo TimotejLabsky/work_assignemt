@@ -1,6 +1,6 @@
 package com.labsky.timotej.model.products;
 
-import com.labsky.timotej.model.HasTax;
+import com.labsky.timotej.model.products.constraints.HasTax;
 
 /**
  * @author timotej
@@ -28,15 +28,8 @@ public class GenericProduct extends Product implements HasTax {
     }
 
 
-
-    @Override
-    public double getFinalPrice() {
-        return 0 + getTax();
-    }
-
     @Override
     public double getTax() {
-        // TODO implement 12% tax
-        return 0;
+        return this.price * TAX_RATE;
     }
 }

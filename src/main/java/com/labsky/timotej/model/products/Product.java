@@ -1,5 +1,9 @@
 package com.labsky.timotej.model.products;
 
+import com.labsky.timotej.model.products.promotions.SalePromotion;
+
+import java.util.List;
+
 /**
  * @author timotej
  */
@@ -8,6 +12,7 @@ public abstract class Product {
     protected String name;
     protected double price;
     protected String currency;
+    protected List<SalePromotion> salePromotions;
 
     protected Product() {
     }
@@ -71,6 +76,4 @@ public abstract class Product {
     public void setCurrency(String currency) {
         this.currency = currency;
     }
-
-    public abstract double getFinalPrice();
 }

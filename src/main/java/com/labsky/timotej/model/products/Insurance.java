@@ -4,7 +4,7 @@ package com.labsky.timotej.model.products;
  * @author timotej
  */
 public class Insurance extends Product {
-    
+
     public Insurance() {
     }
 
@@ -27,11 +27,5 @@ public class Insurance extends Product {
 
     public static Builder builder() {
         return new Builder();
-    }
-
-
-    @Override
-    public double getFinalPrice() {
-        return 0;
     }
 }
