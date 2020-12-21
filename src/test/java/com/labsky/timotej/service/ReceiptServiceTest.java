@@ -42,7 +42,8 @@ class ReceiptServiceTest {
         mockProducts.add(new GenericProduct("phone case", parseDouble("100"), "CHF"));
         mockProducts.add(new GenericProduct("SIM card", parseDouble("100"), "CHF"));
 
-        basket = new Basket(List.of("SIM card", "phone case", "SIM card"));
+        basket = new Basket();
+        basket.addAll(mockProducts);
 
 
     }
@@ -61,7 +62,8 @@ class ReceiptServiceTest {
 
     @Test
     void testReceiptTaxCalculationWithInsurance() {
-        mockProducts.add(new Insurance("phone insurance", parseDouble("100"), "CHF"));
+        basket.add(new Insurance("phone insurance", parseDouble("100"), "CHF"));
+        
         Receipt receipt = receiptService.getReceipt(basket);
 
         assertEquals(436d, receipt.getTotal(), "total amount should be 300 - 3x100");

@@ -2,15 +2,14 @@ package com.labsky.timotej.model;
 
 import com.labsky.timotej.exceptions.ProductNotFoundException;
 import com.labsky.timotej.model.products.Product;
-import com.labsky.timotej.repository.ProductRepository;
 import com.labsky.timotej.repository.impl.ProductRepositoryImpl;
 import com.labsky.timotej.service.ProductService;
 import com.labsky.timotej.service.impl.ProductServiceImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author timotej
@@ -19,6 +18,10 @@ public class Basket {
     private static final ProductService productService = new ProductServiceImpl(ProductRepositoryImpl.getInstance());
 
     private final List<Product> products;
+
+    public Basket() {
+        this.products = new ArrayList<>();
+    }
 
     public Basket(List<String> productNames) {
         this.products = new ArrayList<>(productService.findAllByName(productNames));
@@ -38,11 +41,18 @@ public class Basket {
 
     public List<Product> add(Product product) {
         this.products.add(product);
+        
         return this.products;
     }
 
     public List<Product> add(String productName) throws ProductNotFoundException {
         this.products.add(productService.findByName(productName));
+
+        return this.products;
+    }
+
+    public List<Product> addAll(Collection<Product> products) {
+        this.products.addAll(products);
 
         return this.products;
     }
