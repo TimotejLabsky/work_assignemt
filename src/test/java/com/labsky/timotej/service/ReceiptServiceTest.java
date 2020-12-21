@@ -1,5 +1,6 @@
 package com.labsky.timotej.service;
 
+import com.labsky.timotej.model.Basket;
 import com.labsky.timotej.model.Receipt;
 import com.labsky.timotej.model.products.GenericProduct;
 import com.labsky.timotej.model.products.Insurance;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import static java.lang.Double.parseDouble;
@@ -23,7 +25,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class ReceiptServiceTest {
 
     private static ReceiptService receiptService;
-    private static List<Product> mockProducts;
+
+    //MOCK DATA
+    private List<Product> mockProducts;
+    private Basket basket;
 
     @BeforeAll
     public static void init() {
@@ -31,11 +36,15 @@ class ReceiptServiceTest {
     }
 
     @BeforeEach
-    public void initMock(){
+    public void initMock() {
         mockProducts = new ArrayList<>();
         mockProducts.add(new GenericProduct("SIM card", parseDouble("100"), "CHF"));
         mockProducts.add(new GenericProduct("phone case", parseDouble("100"), "CHF"));
         mockProducts.add(new GenericProduct("SIM card", parseDouble("100"), "CHF"));
+
+        basket = new Basket(List.of("SIM card", "phone case", "SIM card"));
+
+
     }
 
 
@@ -45,7 +54,7 @@ class ReceiptServiceTest {
      */
     @Test
     void testReceiptTaxCalculation() {
-        Receipt receipt = receiptService.getReceipt(mockProducts);
+        Receipt receipt = receiptService.getReceipt(basket);
 
         assertEquals(336d, receipt.getTotal(), "total amount should be 300 - 3x100");
     }
@@ -53,7 +62,7 @@ class ReceiptServiceTest {
     @Test
     void testReceiptTaxCalculationWithInsurance() {
         mockProducts.add(new Insurance("phone insurance", parseDouble("100"), "CHF"));
-        Receipt receipt = receiptService.getReceipt(mockProducts);
+        Receipt receipt = receiptService.getReceipt(basket);
 
         assertEquals(436d, receipt.getTotal(), "total amount should be 300 - 3x100");
     }
@@ -62,7 +71,7 @@ class ReceiptServiceTest {
     @Test
     void testReceiptCount() {
 
-        Receipt receipt = receiptService.getReceipt(mockProducts);
+        Receipt receipt = receiptService.getReceipt(basket);
 
         assertNotNull(receipt.getProducts(), "products should not be null");
         assertTrue(receipt.getProducts().containsAll(mockProducts), "all products should be in final receipt");

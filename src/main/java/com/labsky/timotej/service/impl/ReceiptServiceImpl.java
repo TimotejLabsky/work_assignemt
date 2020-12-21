@@ -1,8 +1,10 @@
 package com.labsky.timotej.service.impl;
 
+import com.labsky.timotej.model.Basket;
 import com.labsky.timotej.model.products.constraints.HasTax;
 import com.labsky.timotej.model.Receipt;
 import com.labsky.timotej.model.products.Product;
+import com.labsky.timotej.model.products.promotions.SalePromotion;
 import com.labsky.timotej.service.ReceiptService;
 
 import java.time.LocalDateTime;
@@ -17,9 +19,9 @@ import static java.util.stream.Collectors.toList;
  */
 public class ReceiptServiceImpl implements ReceiptService {
     @Override
-    public Receipt getReceipt(final List<Product> basket) {
+    public Receipt getReceipt(Basket basket) {
 
-        List<Product> products = basket.stream()
+        List<Product> products = basket.getProducts().stream()
                 .map(calculateTax())
                 .collect(toList());
 
@@ -40,7 +42,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     private Function<Product, Product> calculateDiscount() {
         return product -> {
-            if (product instanceof HasTax) {
+            if (product instanceof SalePromotion) {
                 product.setPrice(product.getPrice() + ((HasTax) product).getTax());
             }
             return product;
