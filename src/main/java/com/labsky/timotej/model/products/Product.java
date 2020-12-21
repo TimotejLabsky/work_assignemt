@@ -13,7 +13,7 @@ public abstract class Product {
     protected String name;
     protected Double price;
     protected String currency;
-    protected List<SalePromotion> salePromotions;
+    protected List<SalePromotion> salePromotions = new ArrayList<>();
 
     protected Product() {
     }

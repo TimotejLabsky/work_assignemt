@@ -11,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 import static java.lang.Double.parseDouble;
@@ -63,7 +62,7 @@ class ReceiptServiceTest {
     @Test
     void testReceiptTaxCalculationWithInsurance() {
         basket.add(new Insurance("phone insurance", parseDouble("100"), "CHF"));
-        
+
         Receipt receipt = receiptService.getReceipt(basket);
 
         assertEquals(436d, receipt.getTotal(), "total amount should be 300 - 3x100");
