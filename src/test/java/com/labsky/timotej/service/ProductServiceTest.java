@@ -1,13 +1,11 @@
 package com.labsky.timotej.service;
 
+import com.labsky.timotej.model.Basket;
 import com.labsky.timotej.model.products.Earphones;
 import com.labsky.timotej.repository.impl.ProductRepositoryImpl;
 import com.labsky.timotej.service.impl.ProductServiceImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -39,12 +37,12 @@ class ProductServiceTest {
     @Test
     void testFindAllByName() {
         final int numberOfProductsInBasket = 2;
-        final String basket = """
+        final Basket basket = new Basket("""
                 SIM card
                 phone case
-                """;
+                """);
 
-        var products = productService.findAllByName(getListOfProductStrings(basket));
+        var products = productService.findAllByName(basket.getProductNames());
 
         assertNotNull(products, "products should not be null after findAllByName if no error");
         assertEquals(numberOfProductsInBasket, products.size(),
@@ -54,11 +52,14 @@ class ProductServiceTest {
     @Test
     void testFindAllByNameNotCorrectName() {
         final int numberOfCorrect = 1;
-        final String basket = """
-                SIM Card
-                phone case
-                 """;
-        var products = productService.findAllByName(getListOfProductStrings(basket));
+        final Basket basket = new Basket(
+                """
+                        SIM Card
+                        phone case
+                         """);
+
+
+        var products = productService.findAllByName(basket.getProductNames());
 
         assertNotNull(products, "products should not be null after findAllByName if no error");
         assertEquals(numberOfCorrect, products.size(),
@@ -89,8 +90,5 @@ class ProductServiceTest {
         assertTrue(products.isEmpty(), "product should be empty");
     }
 
-    private List<String> getListOfProductStrings(String productsString) {
-        return Arrays.asList(productsString.split("\\r?\\n"));
-    }
 
 }
