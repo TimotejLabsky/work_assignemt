@@ -1,6 +1,6 @@
 package com.labsky.timotej.repository.impl;
 
-import com.labsky.timotej.model.ProductFactory;
+import com.labsky.timotej.model.products.ProductFactory;
 import com.labsky.timotej.model.products.Product;
 import com.labsky.timotej.repository.ProductRepository;
 
@@ -39,18 +39,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     }
 
-    private Path getFilePath() {
-        URL fileUrl = ClassLoader.getSystemResource(WAREHOUSE_FILE_NAME);
-        return Path.of(fileUrl.getPath());
-    }
-
-    private List<Product> loadProductsFromFile(final Path filePath) throws IOException {
-        try (Stream<String> lines = Files.lines(filePath)) {
-            return lines.map(ProductFactory::getProduct)
-                    .collect(toList());
-        }
-    }
-
     public static ProductRepository getInstance() {
         return instance;
     }
@@ -77,5 +65,17 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public Product save(final Product product) {
         return null;
+    }
+
+    private Path getFilePath() {
+        URL fileUrl = ClassLoader.getSystemResource(WAREHOUSE_FILE_NAME);
+        return Path.of(fileUrl.getPath());
+    }
+
+    private List<Product> loadProductsFromFile(final Path filePath) throws IOException {
+        try (Stream<String> lines = Files.lines(filePath)) {
+            return lines.map(ProductFactory::getProduct)
+                    .collect(toList());
+        }
     }
 }
