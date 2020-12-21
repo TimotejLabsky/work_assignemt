@@ -1,11 +1,14 @@
 package com.labsky.timotej;
 
+import com.labsky.timotej.repository.ProductRepository;
+import com.labsky.timotej.repository.impl.ProductRepositoryImpl;
+
 /**
  * @author timotej
  */
 public class BigShop {
 
     public static void main(String[] args) {
-        System.out.println("Hello World");
+        ProductRepository productRepository = ProductRepositoryImpl.getInstance();
     }
 }
