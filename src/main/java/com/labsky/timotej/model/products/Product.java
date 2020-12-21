@@ -83,4 +83,12 @@ public abstract class Product {
     public void setCurrency(String currency) {
         this.currency = currency;
     }
+
+    public List<SalePromotion> getSalePromotions() {
+        return salePromotions;
+    }
+
+    public void setSalePromotions(List<SalePromotion> salePromotions) {
+        this.salePromotions = salePromotions;
+    }
 }
