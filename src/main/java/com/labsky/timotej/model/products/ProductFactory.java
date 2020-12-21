@@ -30,7 +30,7 @@ public class ProductFactory {
                     .name(productFields[ProductsFileFields.NAME])
                     .price(parseDouble(productFields[ProductsFileFields.PRICE]))
                     .currency(productFields[ProductsFileFields.CURRENCY])
-                    .salePromotions(new Discount(20.0f)) // TODO not hardcode it like this
+                    .salePromotions(new Discount(Double.valueOf(20.0d))) // TODO not hardcode it like this
                     .build();
             case ProductTypes.EARPHONES -> Earphones.builder()
                     .name(productFields[ProductsFileFields.NAME])
