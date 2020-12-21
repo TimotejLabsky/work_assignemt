@@ -4,6 +4,7 @@ import com.labsky.timotej.exceptions.ProductNotFoundException;
 import com.labsky.timotej.model.Basket;
 import com.labsky.timotej.model.products.Product;
 import com.labsky.timotej.model.products.SimCard;
+import com.labsky.timotej.model.products.promotions.BuyOneGetOneForFree;
 import com.labsky.timotej.repository.ProductRepository;
 import com.labsky.timotej.repository.impl.ProductRepositoryImpl;
 import com.labsky.timotej.service.ProductService;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -38,12 +40,7 @@ class AssigmentSubjectsTest {
 
     @Test
     void testTax() {
-        Product product = null;
-        try {
-            product = productService.findByName("SIM card");
-        } catch (ProductNotFoundException e) {
-            assertTrue(true, e.getMessage());
-        }
+        Product product = assertDoesNotThrow(() -> productService.findByName("SIM card"));
 
         assertNotNull(product, "product should not be empty");
         assertTrue(product instanceof SimCard, "String \"Sim card\" should represent insurance");
@@ -52,16 +49,24 @@ class AssigmentSubjectsTest {
 
     @Test
     void testSimBOGOF() {
-        assertTrue(false, "not implemented");
+        var basket = assertDoesNotThrow(() -> new Basket("SIM card"));
+
+        // add buy one get one for free promotion to product
+        basket.getProducts().get(0).getSalePromotions().add(new BuyOneGetOneForFree());
+
+        var receipt = receiptService.getReceipt(basket);
+
+        assertEquals(2, receipt.getProducts().size(), "receipt should have 2 SIM cards because of BOGOFF");
+        assertEquals(basket.getProducts().get(0).getPrice(), receipt.getTotal(), "total should be same same as cost of one SIM card");
     }
 
-    @Test
+    //    @Test
     void testInsuranceDiscount() {
 
         assertTrue(false, "not implemented");
     }
 
-    @Test
+    //    @Test
     void testMaxNumberOfSimsInOnePurchase() {
         assertTrue(false, "not implemented");
     }
