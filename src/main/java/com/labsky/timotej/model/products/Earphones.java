@@ -8,7 +8,7 @@ public class Earphones extends GenericProduct {
     public Earphones() {
     }
 
-    public Earphones(String name, double price, String currency) {
+    public Earphones(String name, Double price, String currency) {
         super(name, price, currency);
     }
 

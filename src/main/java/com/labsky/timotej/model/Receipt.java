@@ -13,7 +13,7 @@ public class Receipt {
     private List<Product> products;
     private UUID casRegisterUuid;
     private LocalDateTime time;
-    private double total;
+    private Double total;
     private UUID uuid;
     private UUID contractorUui;
 
@@ -21,7 +21,7 @@ public class Receipt {
     public Receipt() {
     }
 
-    public Receipt(List<Product> products, UUID casRegisterUuid, LocalDateTime time, double total, UUID uuid, UUID contractorUui) {
+    public Receipt(List<Product> products, UUID casRegisterUuid, LocalDateTime time, Double total, UUID uuid, UUID contractorUui) {
         this.products = products;
         this.casRegisterUuid = casRegisterUuid;
         this.time = time;
@@ -36,6 +36,12 @@ public class Receipt {
 
     public List<Product> getProducts() {
         return products;
+    }
+
+    public Double getTotal() {
+        return products.stream()
+                .mapToDouble(Product::getPrice)
+                .sum();
     }
 
     // TODO nice formated print

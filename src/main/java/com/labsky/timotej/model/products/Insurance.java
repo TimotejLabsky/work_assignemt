@@ -8,7 +8,7 @@ public class Insurance extends Product {
     public Insurance() {
     }
 
-    public Insurance(String name, double price, String currency) {
+    public Insurance(String name, Double price, String currency) {
         super(name, price, currency);
     }
 

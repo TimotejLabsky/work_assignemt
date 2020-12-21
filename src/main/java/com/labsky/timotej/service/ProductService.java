@@ -1,9 +1,9 @@
 package com.labsky.timotej.service;
 
+import com.labsky.timotej.exceptions.ProductNotFoundException;
 import com.labsky.timotej.model.products.Product;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author timotej
@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface ProductService {
     public List<Product> findAllByName(final List<String> basket);
 
-    public Optional<Product> findByName(final String product);
+    public Product findByName(final String product) throws ProductNotFoundException;
 
     public List<Product> findAll();
 }

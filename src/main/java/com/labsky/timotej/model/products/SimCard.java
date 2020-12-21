@@ -8,7 +8,7 @@ public class SimCard extends GenericProduct {
     public SimCard() {
     }
 
-    public SimCard(String name, double price, String currency) {
+    public SimCard(String name, Double price, String currency) {
         super(name, price, currency);
     }
 

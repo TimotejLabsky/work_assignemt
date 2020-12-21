@@ -2,6 +2,7 @@ package com.labsky.timotej.model.products;
 
 import com.labsky.timotej.model.products.promotions.SalePromotion;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,14 +11,14 @@ import java.util.List;
 public abstract class Product {
 
     protected String name;
-    protected double price;
+    protected Double price;
     protected String currency;
     protected List<SalePromotion> salePromotions;
 
     protected Product() {
     }
 
-    protected Product(String name, double price, String currency) {
+    protected Product(String name, Double price, String currency) {
         this.name = name;
         this.price = price;
         this.currency = currency;
@@ -25,8 +26,9 @@ public abstract class Product {
 
     public abstract static class Builder<T extends Builder<T>> {
         protected String name;
-        protected double price;
+        protected Double price;
         protected String currency;
+        protected List<SalePromotion> salePromotions = new ArrayList<>();
 
         public abstract T getThis();
 
@@ -35,13 +37,18 @@ public abstract class Product {
             return getThis();
         }
 
-        public T price(double price) {
+        public T price(Double price) {
             this.price = price;
             return getThis();
         }
 
         public T currency(String currency) {
             this.currency = currency;
+            return getThis();
+        }
+
+        public T salePromotions(SalePromotion salePromotion) {
+            this.salePromotions.add(salePromotion);
             return getThis();
         }
 
@@ -61,11 +68,11 @@ public abstract class Product {
         this.name = name;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

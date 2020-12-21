@@ -14,7 +14,7 @@ public class Discount implements SalePromotion {
 
     @Override
     public void apply(Product product) {
-        double newPrice = product.getPrice();
+        Double newPrice = product.getPrice();
         product.setPrice(newPrice * discount());
     }
 

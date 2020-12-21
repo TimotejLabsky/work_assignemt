@@ -1,11 +1,14 @@
 package com.labsky.timotej.service.impl;
 
+import com.labsky.timotej.exceptions.ProductNotFoundException;
 import com.labsky.timotej.model.products.Product;
 import com.labsky.timotej.repository.ProductRepository;
 import com.labsky.timotej.service.ProductService;
 
 import java.util.List;
 import java.util.Optional;
+
+import static java.lang.String.format;
 
 /**
  * @author timotej
@@ -25,9 +28,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<Product> findByName(String product) {
-        return productRepository.findByName(product);
+    public Product findByName(String product) throws ProductNotFoundException {
+        return productRepository.findByName(product).orElseThrow(() -> new ProductNotFoundException("%s".formatted(product)));
     }
+
 
     @Override
     public List<Product> findAll() {

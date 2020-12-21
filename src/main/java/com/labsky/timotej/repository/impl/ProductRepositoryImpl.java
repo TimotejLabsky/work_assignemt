@@ -1,5 +1,6 @@
 package com.labsky.timotej.repository.impl;
 
+import com.labsky.timotej.exceptions.ProductNotFoundException;
 import com.labsky.timotej.model.products.ProductFactory;
 import com.labsky.timotej.model.products.Product;
 import com.labsky.timotej.repository.ProductRepository;
@@ -44,7 +45,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public Optional<Product> findByName(final String name) {
+    public Optional<Product> findByName(final String name) throws ProductNotFoundException {
         return this.products.stream()
                 .filter(p -> name.equals(p.getName()))
                 .findFirst();

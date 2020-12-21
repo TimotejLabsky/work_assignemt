@@ -10,7 +10,7 @@ public class GenericProduct extends Product implements HasTax {
     public GenericProduct() {
     }
 
-    public GenericProduct(String name, double price, String currency) {
+    public GenericProduct(String name, Double price, String currency) {
         super(name, price, currency);
     }
 
@@ -29,7 +29,7 @@ public class GenericProduct extends Product implements HasTax {
 
 
     @Override
-    public double getTax() {
-        return this.price * TAX_RATE;
+    public Double getTax() {
+        return (this.price * Double.valueOf(TAX_RATE));
     }
 }
