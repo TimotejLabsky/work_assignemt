@@ -32,7 +32,7 @@ class ReceiptServiceTest {
         mockProducts.add(new GenericProduct("test product", 100, "CHF"));
     }
 
-//    @Test
+    @Test
     void testReceiptTotal() {
 
 
@@ -41,7 +41,7 @@ class ReceiptServiceTest {
         assertEquals(300, receipt.total(), "total amount should be 300 - 3x100");
     }
 
-//    @Test
+    @Test
     void testReceiptCount() {
 
         Receipt receipt = receiptService.getReceipt(mockProducts);
@@ -50,7 +50,7 @@ class ReceiptServiceTest {
         assertTrue(receipt.products().containsAll(mockProducts), "all products should be in final receipt");
     }
 
-//    @Test
+    @Test
     void testReceiptNotFoundException() {
         var products = mockProducts;
 

@@ -25,7 +25,7 @@ class AssigmentSubjectsTest {
         receiptService = null;
     }
 
-//    @Test
+    @Test
     void testTax() {
         var product = productService.findByName("Sim card");
 
@@ -35,17 +35,17 @@ class AssigmentSubjectsTest {
         assertEquals(actualProduct.getPrice() * 1.12, ((SimCard) actualProduct).getTax(), "tax should be on ");
     }
 
-//    @Test
+    @Test
     void testSimBOGOF() {
         assertTrue(false, "not implemented");
     }
 
-//    @Test
+    @Test
     void testInsuranceDiscount() {
         assertTrue(false, "not implemented");
     }
 
-//    @Test
+    @Test
     void testMaxNumberOfSimsInOnePurchase() {
         assertTrue(false, "not implemented");
     }
