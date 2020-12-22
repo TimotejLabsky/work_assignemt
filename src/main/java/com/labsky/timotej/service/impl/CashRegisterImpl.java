@@ -5,6 +5,7 @@ import com.labsky.timotej.model.Basket;
 import com.labsky.timotej.model.Receipt;
 import com.labsky.timotej.service.CashRegister;
 import com.labsky.timotej.service.ReceiptService;
+import com.labsky.timotej.util.Printer;
 
 import java.util.UUID;
 
@@ -34,6 +35,7 @@ public class CashRegisterImpl implements CashRegister {
             return;
         }
 
-        out.printf("Have a nice day here is your receipt %n%n%s", receipt.toString());
+        out.println("Have a nice day, here is your receipt");
+        Printer.print(receipt);
     }
 }
