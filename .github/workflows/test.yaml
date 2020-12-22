@@ -18,5 +18,3 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Run tests with Maven
         run: mvn -B test
-      - name: Code Coverage Report
-        uses: romeovs/lcov-reporter-action@v0.2.11
