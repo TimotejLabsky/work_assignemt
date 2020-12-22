@@ -11,7 +11,7 @@ import java.util.UUID;
  */
 public class Receipt {
     private List<Product> products;
-    private UUID casRegisterUuid;
+    private UUID cashRegisterUuid;
     private LocalDateTime time;
     private Double total;
     private UUID uuid;
@@ -21,9 +21,9 @@ public class Receipt {
     public Receipt() {
     }
 
-    public Receipt(List<Product> products, UUID casRegisterUuid, LocalDateTime time, Double total, UUID uuid, UUID contractorUui) {
+    public Receipt(List<Product> products, UUID cashRegisterUuid, LocalDateTime time, Double total, UUID uuid, UUID contractorUui) {
         this.products = products;
-        this.casRegisterUuid = casRegisterUuid;
+        this.cashRegisterUuid = cashRegisterUuid;
         this.time = time;
         this.total = total;
         this.uuid = uuid;
@@ -49,7 +49,7 @@ public class Receipt {
     public String toString() {
         return "Receipt{" +
                 "products=" + products +
-                ", casRegisterUuid=" + casRegisterUuid +
+                ", casRegisterUuid=" + cashRegisterUuid +
                 ", time=" + time +
                 ", total=" + total +
                 ", uuid=" + uuid +
