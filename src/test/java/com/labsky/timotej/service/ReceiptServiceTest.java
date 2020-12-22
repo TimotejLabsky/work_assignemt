@@ -1,5 +1,6 @@
 package com.labsky.timotej.service;
 
+import com.labsky.timotej.exceptions.ConstrainValidationException;
 import com.labsky.timotej.model.Basket;
 import com.labsky.timotej.model.Receipt;
 import com.labsky.timotej.model.products.GenericProduct;
@@ -12,11 +13,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static java.lang.Double.parseDouble;
 import static java.util.Collections.emptyList;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -57,7 +58,7 @@ class ReceiptServiceTest {
      */
     @Test
     void testReceiptTaxCalculation() {
-        Receipt receipt = receiptService.getReceipt(basket);
+        Receipt receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket));
 
         assertEquals(336d, receipt.getTotal(), "total amount should be 300 - 3x100");
     }
@@ -66,7 +67,7 @@ class ReceiptServiceTest {
     void testReceiptTaxCalculationWithInsurance() {
         basket.add(new Insurance("phone insurance", parseDouble("100"), "CHF", emptyList()));
 
-        Receipt receipt = receiptService.getReceipt(basket);
+        Receipt receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket));
 
         assertEquals(436d, receipt.getTotal(), "total amount should be 300 - 3x100");
     }
@@ -75,7 +76,7 @@ class ReceiptServiceTest {
     @Test
     void testReceiptCount() {
 
-        Receipt receipt = receiptService.getReceipt(basket);
+        Receipt receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket));
 
         assertNotNull(receipt.products(), "products should not be null");
 
