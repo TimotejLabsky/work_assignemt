@@ -1,6 +1,5 @@
 package com.labsky.timotej;
 
-import com.labsky.timotej.exceptions.ProductNotFoundException;
 import com.labsky.timotej.exceptions.SimCardCountRestrictionException;
 import com.labsky.timotej.model.Basket;
 import com.labsky.timotej.model.products.Insurance;
@@ -19,8 +18,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.ThrowingSupplier;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -33,6 +30,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class AssigmentSubjectsTest {
 
     public final double ONE_PRODUCT_PRICE = 10d;
+    // half of price
+    public final double DISCOUNT_PERCENTAGE = 50d;
 
     private static ProductService productService;
     private static ReceiptService receiptService;
@@ -93,7 +92,7 @@ class AssigmentSubjectsTest {
     }
 
     @Test
-    void testInsuranceDiscount() {
+    void testInsuranceDiscount_one() {
         final double ONE_PRODUCT_PRICE = 10d;
         // half of price
         final double DISCOUNT_PERCENTAGE = 50d;
@@ -108,18 +107,34 @@ class AssigmentSubjectsTest {
     }
 
     @Test
-    void testMaxNumberOfSimsInOnePurchase() {
-        final double ONE_PRODUCT_PRICE = 10d;
+    void testInsuranceDiscount_multiple() {
+        final int COUNT = 4;
 
+        productWithoutTax.addSalePromotion(new Discount(DISCOUNT_PERCENTAGE));
+        basket.add(productWithoutTax, COUNT);
+
+        var receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket));
+
+        assertEquals(COUNT * ONE_PRODUCT_PRICE / 2, receipt.getTotal(), "total should be half of products price");
+    }
+
+    // TODO test increment of count or decrement of count in basket - BOGOFF will have issue
+    @Test
+    void testMaxNumberOfSimsInOnePurchase() {
         var basket = assertDoesNotThrow((ThrowingSupplier<Basket>) Basket::new);
 
         var product = SimCard.builder()
                 .name("BOGOFF test")
                 .price(ONE_PRODUCT_PRICE)
                 .build();
-        basket.add(product, 11);
+        basket.add(product, 9);
 
-        var receipt = assertThrows(SimCardCountRestrictionException.class, () -> receiptService.getReceipt(basket),
+        assertDoesNotThrow(() -> receiptService.getReceipt(basket),
+                "should NOT throw error because number of number of products is less than it should be");
+
+        basket.getProducts().get(0).setCount(11);
+
+        assertThrows(SimCardCountRestrictionException.class, () -> receiptService.getReceipt(basket),
                 "should throw error because number of number of products is higher than it should be");
     }
 }

@@ -32,6 +32,8 @@ public class Basket {
         this(getProductNames(productsString));
     }
 
+    //TODO get product by class | name | type ?
+
     private static List<String> getProductNames(String productsString) {
         return Arrays.asList(productsString.split("\\r?\\n"));
     }
@@ -39,6 +41,7 @@ public class Basket {
     public List<ProductCountPair> getProducts() {
         return products;
     }
+
 
     public List<ProductCountPair> add(Product product, int count) {
         this.products.add(new ProductCountPair(product, count));
@@ -48,7 +51,6 @@ public class Basket {
     public List<ProductCountPair> add(Product product) {
         return this.add(product, 1);
     }
-
 
     public List<ProductCountPair> add(String productName, int count) throws ProductNotFoundException {
         Product product = productService.findByName(productName);
@@ -67,6 +69,7 @@ public class Basket {
 
         return this.products;
     }
+
 
     public List<ProductCountPair> remove(Product product) {
         this.products.removeIf(keyValue -> keyValue.getKey() == product);

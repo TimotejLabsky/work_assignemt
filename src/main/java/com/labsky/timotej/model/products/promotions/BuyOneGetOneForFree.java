@@ -11,7 +11,7 @@ public class BuyOneGetOneForFree implements SalePromotion {
 
     @Override
     public void apply(ProductCountPair productCountPair) {
-        productCountPair.increaseCount();
+        productCountPair.setCount(productCountPair.count() * 2);
 
         if (!containsBuyOneGetOneForFreeDiscount(productCountPair.product().getSalePromotions())) {
             SalePromotion promotion = new BuyOneGetOneForFreeDiscount();
