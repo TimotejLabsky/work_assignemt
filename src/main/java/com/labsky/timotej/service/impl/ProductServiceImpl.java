@@ -6,9 +6,6 @@ import com.labsky.timotej.repository.ProductRepository;
 import com.labsky.timotej.service.ProductService;
 
 import java.util.List;
-import java.util.Optional;
-
-import static java.lang.String.format;
 
 /**
  * @author timotej

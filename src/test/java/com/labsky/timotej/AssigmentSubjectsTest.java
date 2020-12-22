@@ -15,6 +15,7 @@ import com.labsky.timotej.service.ReceiptService;
 import com.labsky.timotej.service.impl.ProductServiceImpl;
 import com.labsky.timotej.service.impl.ReceiptServiceImpl;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.ThrowingSupplier;
 
@@ -31,17 +32,30 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 class AssigmentSubjectsTest {
 
+    public final double ONE_PRODUCT_PRICE = 10d;
+
     private static ProductService productService;
     private static ReceiptService receiptService;
     private static final ProductRepository productRepository = ProductRepositoryImpl.getInstance();
 
-    private static final Basket basket = new Basket(List.of("SIM card", "phone case", "phone insurance", "wired earphones", "wireless earphones"));
+    private Product productWithoutTax;
+    private Basket basket;
 
     @BeforeAll
     public static void init() {
         productService = new ProductServiceImpl(productRepository);
         receiptService = new ReceiptServiceImpl();
     }
+
+    @BeforeEach
+    public void initProductWithoutTax() {
+        this.productWithoutTax = Insurance.builder()
+                .name("BOGOFF test")
+                .price(ONE_PRODUCT_PRICE)
+                .build();
+        this.basket = assertDoesNotThrow((ThrowingSupplier<Basket>) Basket::new);
+    }
+
 
     @Test
     void testTax() {
@@ -53,17 +67,10 @@ class AssigmentSubjectsTest {
     }
 
     @Test
-    void testSimBOGOF() {
-        final double ONE_PRODUCT_PRICE = 10d;
+    void testSimBOGOFSimple() {
 
-        var basket = assertDoesNotThrow((ThrowingSupplier<Basket>) Basket::new);
-
-        var product = Insurance.builder()
-                .name("BOGOFF test")
-                .price(ONE_PRODUCT_PRICE)
-                .salePromotions(new BuyOneGetOneForFree())
-                .build();
-        basket.add(product);
+        productWithoutTax.addSalePromotion(new BuyOneGetOneForFree());
+        basket.add(productWithoutTax);
 
         var receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket));
 
@@ -72,17 +79,28 @@ class AssigmentSubjectsTest {
     }
 
     @Test
+    void testSimBOGOFMultiple() {
+        final double ONE_PRODUCT_PRICE = 10d;
+        final int COUNT_OF_PRODUCTS_IN = 3;
+
+        productWithoutTax.addSalePromotion(new BuyOneGetOneForFree());
+        basket.add(productWithoutTax, COUNT_OF_PRODUCTS_IN);
+
+        var receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket));
+
+        assertEquals(COUNT_OF_PRODUCTS_IN * 2, receipt.products().get(0).count(), "receipt should have 2 SIM cards because of BOGOFF");
+        assertEquals(ONE_PRODUCT_PRICE * COUNT_OF_PRODUCTS_IN, receipt.getTotal(), "total should be same same as cost of one SIM card");
+    }
+
+    @Test
     void testInsuranceDiscount() {
         final double ONE_PRODUCT_PRICE = 10d;
+        // half of price
+        final double DISCOUNT_PERCENTAGE = 50d;
 
-        var basket = assertDoesNotThrow((ThrowingSupplier<Basket>) Basket::new);
 
-        var product = Insurance.builder()
-                .name("BOGOFF test")
-                .price(ONE_PRODUCT_PRICE)
-                .salePromotions(new Discount(50d))
-                .build();
-        basket.add(product);
+        productWithoutTax.addSalePromotion(new Discount(DISCOUNT_PERCENTAGE));
+        basket.add(productWithoutTax);
 
         var receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket));
 
@@ -98,7 +116,6 @@ class AssigmentSubjectsTest {
         var product = SimCard.builder()
                 .name("BOGOFF test")
                 .price(ONE_PRODUCT_PRICE)
-                .salePromotions(new Discount(50d))
                 .build();
         basket.add(product, 11);
 

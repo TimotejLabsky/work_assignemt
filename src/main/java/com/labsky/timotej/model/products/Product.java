@@ -60,6 +60,9 @@ public abstract class Product {
         return new GenericProduct.Builder();
     }
 
+    public void addSalePromotion(SalePromotion salePromotion) {
+        this.salePromotions.add(salePromotion);
+    }
 
     public String getName() {
         return name;
