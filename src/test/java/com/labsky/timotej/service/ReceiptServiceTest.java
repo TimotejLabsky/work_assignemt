@@ -12,9 +12,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static java.lang.Double.parseDouble;
+import static java.util.Collections.emptyList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -38,9 +40,9 @@ class ReceiptServiceTest {
     @BeforeEach
     public void initMock() {
         mockProducts = new ArrayList<>();
-        mockProducts.add(new GenericProduct("SIM card", parseDouble("100"), "CHF", null));
-        mockProducts.add(new GenericProduct("phone case", parseDouble("100"), "CHF", null));
-        mockProducts.add(new GenericProduct("SIM card", parseDouble("100"), "CHF", null));
+        mockProducts.add(new GenericProduct("SIM card", parseDouble("100"), "CHF", emptyList()));
+        mockProducts.add(new GenericProduct("phone case", parseDouble("100"), "CHF", emptyList()));
+        mockProducts.add(new GenericProduct("SIM card", parseDouble("100"), "CHF", emptyList()));
 
         basket = new Basket();
         basket.addAll(mockProducts);
@@ -62,7 +64,7 @@ class ReceiptServiceTest {
 
     @Test
     void testReceiptTaxCalculationWithInsurance() {
-        basket.add(new Insurance("phone insurance", parseDouble("100"), "CHF", null));
+        basket.add(new Insurance("phone insurance", parseDouble("100"), "CHF", emptyList()));
 
         Receipt receipt = receiptService.getReceipt(basket);
 

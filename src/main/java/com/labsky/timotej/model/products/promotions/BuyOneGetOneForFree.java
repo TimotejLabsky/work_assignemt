@@ -15,9 +15,7 @@ public class BuyOneGetOneForFree implements SalePromotion {
 
         if (!containsBuyOneGetOneForFreeDiscount(productCountPair.product().getSalePromotions())) {
             SalePromotion promotion = new BuyOneGetOneForFreeDiscount();
-
             productCountPair.product().getSalePromotions().add(promotion);
-            promotion.apply(productCountPair);
         }
     }
 
