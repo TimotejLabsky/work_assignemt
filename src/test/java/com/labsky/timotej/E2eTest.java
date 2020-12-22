@@ -75,7 +75,7 @@ class E2eTest {
     @Test
     @Order(1)
     void testFillBasket() {
-        this.basket = new Basket();
+        basket = new Basket();
 
         Collection<Product> products = productService.findAllByName(List.of(allProductsString));
         basket.addAll(products);
@@ -92,9 +92,9 @@ class E2eTest {
     @Test
     @Order(2)
     void testCashRegister() {
-        assertNotNull(this.basket, "basket should be initialized - Test flow error");
+        assertNotNull(basket, "basket should be initialized - Test flow error");
 
-        cashRegister.checkout(this.basket);
+        cashRegister.checkout(basket);
 
         assertTrue(outContent.size() > 0, "should output something");
     }
