@@ -12,7 +12,7 @@
 * the law prevents anyone buying more than 10 SIM cards in a single purchase
 
 ## Data warehouse ##
-product data are parsed from file - /resources/warehouse.txt
+product data are parsed from file - [/resources/warehouse.txt](https://github.com/TimotejLabsky/work_assignemt/tree/main/src/main/resources)
 ### File format ###
 * fields are separated by: `;`
 
