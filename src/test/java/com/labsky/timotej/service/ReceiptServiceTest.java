@@ -1,13 +1,12 @@
 package com.labsky.timotej.service;
 
-import com.labsky.timotej.exceptions.ConstrainValidationException;
 import com.labsky.timotej.model.Basket;
 import com.labsky.timotej.model.Receipt;
 import com.labsky.timotej.model.products.GenericProduct;
 import com.labsky.timotej.model.products.Insurance;
 import com.labsky.timotej.model.products.Product;
 import com.labsky.timotej.service.impl.ReceiptServiceImpl;
-import com.labsky.timotej.util.ProductCountPair;
+import com.labsky.timotej.model.ProductCountPair;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -5,7 +5,6 @@ import com.labsky.timotej.model.products.Product;
 import com.labsky.timotej.repository.impl.ProductRepositoryImpl;
 import com.labsky.timotej.service.ProductService;
 import com.labsky.timotej.service.impl.ProductServiceImpl;
-import com.labsky.timotej.util.ProductCountPair;
 
 import java.util.ArrayList;
 import java.util.Arrays;

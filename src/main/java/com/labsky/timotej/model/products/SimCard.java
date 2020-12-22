@@ -4,7 +4,7 @@ import com.labsky.timotej.exceptions.SimCardCountRestrictionException;
 import com.labsky.timotej.model.Basket;
 import com.labsky.timotej.model.products.constraints.Constrain;
 import com.labsky.timotej.model.products.promotions.SalePromotion;
-import com.labsky.timotej.util.ProductCountPair;
+import com.labsky.timotej.model.ProductCountPair;
 
 import java.util.List;
 import java.util.Optional;

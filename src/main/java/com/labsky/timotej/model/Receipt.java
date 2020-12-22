@@ -1,7 +1,5 @@
 package com.labsky.timotej.model;
 
-import com.labsky.timotej.util.ProductCountPair;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;

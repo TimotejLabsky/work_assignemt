@@ -1,6 +1,6 @@
 package com.labsky.timotej.model.products.promotions;
 
-import com.labsky.timotej.util.ProductCountPair;
+import com.labsky.timotej.model.ProductCountPair;
 
 import java.util.Collection;
 

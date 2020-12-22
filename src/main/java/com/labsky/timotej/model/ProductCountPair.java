@@ -1,4 +1,4 @@
-package com.labsky.timotej.util;
+package com.labsky.timotej.model;
 
 import com.labsky.timotej.model.products.Product;
 

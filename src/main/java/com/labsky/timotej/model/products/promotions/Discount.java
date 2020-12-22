@@ -1,7 +1,7 @@
 package com.labsky.timotej.model.products.promotions;
 
 import com.labsky.timotej.model.products.Product;
-import com.labsky.timotej.util.ProductCountPair;
+import com.labsky.timotej.model.ProductCountPair;
 
 /**
  * @author timotej

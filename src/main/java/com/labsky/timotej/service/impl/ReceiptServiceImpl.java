@@ -7,12 +7,10 @@ import com.labsky.timotej.model.products.Product;
 import com.labsky.timotej.model.products.constraints.Constrain;
 import com.labsky.timotej.model.products.constraints.HasTax;
 import com.labsky.timotej.service.ReceiptService;
-import com.labsky.timotej.util.ProductCountPair;
+import com.labsky.timotej.model.ProductCountPair;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 import static java.util.UUID.randomUUID;
 import static java.util.stream.Collectors.toList;
