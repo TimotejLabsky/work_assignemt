@@ -91,6 +91,7 @@ class AssigmentSubjectsTest {
         assertEquals(ONE_PRODUCT_PRICE * COUNT_OF_PRODUCTS_IN, receipt.getTotal(), "total should be same same as cost of one SIM card");
     }
 
+
     @Test
     void testInsuranceDiscount_one() {
         final double ONE_PRODUCT_PRICE = 10d;
@@ -118,7 +119,6 @@ class AssigmentSubjectsTest {
         assertEquals(COUNT * ONE_PRODUCT_PRICE / 2, receipt.getTotal(), "total should be half of products price");
     }
 
-    // TODO test increment of count or decrement of count in basket - BOGOFF will have issue
     @Test
     void testMaxNumberOfSimsInOnePurchase() {
         var basket = assertDoesNotThrow((ThrowingSupplier<Basket>) Basket::new);
