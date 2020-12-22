@@ -25,9 +25,13 @@ public class ProductCountPair extends AbstractMap.SimpleEntry<Product, Integer> 
     public Integer count() {
         return this.getValue();
     }
-    
+
     public Integer setCount(Integer value) {
         return this.setValue(value);
+    }
+
+    public void increaseCount() {
+        this.setCount(this.count() + 1);
     }
 }
 

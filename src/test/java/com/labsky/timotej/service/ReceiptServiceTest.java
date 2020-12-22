@@ -38,9 +38,9 @@ class ReceiptServiceTest {
     @BeforeEach
     public void initMock() {
         mockProducts = new ArrayList<>();
-        mockProducts.add(new GenericProduct("SIM card", parseDouble("100"), "CHF"));
-        mockProducts.add(new GenericProduct("phone case", parseDouble("100"), "CHF"));
-        mockProducts.add(new GenericProduct("SIM card", parseDouble("100"), "CHF"));
+        mockProducts.add(new GenericProduct("SIM card", parseDouble("100"), "CHF", null));
+        mockProducts.add(new GenericProduct("phone case", parseDouble("100"), "CHF", null));
+        mockProducts.add(new GenericProduct("SIM card", parseDouble("100"), "CHF", null));
 
         basket = new Basket();
         basket.addAll(mockProducts);
@@ -62,7 +62,7 @@ class ReceiptServiceTest {
 
     @Test
     void testReceiptTaxCalculationWithInsurance() {
-        basket.add(new Insurance("phone insurance", parseDouble("100"), "CHF"));
+        basket.add(new Insurance("phone insurance", parseDouble("100"), "CHF", null));
 
         Receipt receipt = receiptService.getReceipt(basket);
 

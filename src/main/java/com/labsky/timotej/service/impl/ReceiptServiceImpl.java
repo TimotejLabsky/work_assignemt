@@ -18,8 +18,8 @@ public class ReceiptServiceImpl implements ReceiptService {
     @Override
     public Receipt getReceipt(Basket basket) {
 
-        applyTax(basket);
         applySale(basket);
+        applyTax(basket);
 
         return new Receipt(basket.getProducts(),
                 null, // TODO constant
@@ -37,7 +37,12 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     private void applySale(Basket basket) {
-
+        for (int i = 0; i < basket.getProducts().size(); i++) {
+            ProductCountPair productCountPair = basket.getProducts().get(i);
+            for (int j = 0; j < productCountPair.product().getSalePromotions().size(); j++) {
+                productCountPair.product().getSalePromotions().get(j).apply(productCountPair);
+            }
+        }
     }
 
     private static Double getTotal(Basket basket) {

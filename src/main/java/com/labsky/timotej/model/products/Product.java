@@ -18,10 +18,11 @@ public abstract class Product {
     protected Product() {
     }
 
-    protected Product(String name, Double price, String currency) {
+    protected Product(String name, Double price, String currency, List<SalePromotion> salePromotions) {
         this.name = name;
         this.price = price;
         this.currency = currency;
+        this.salePromotions = salePromotions;
     }
 
     public abstract static class Builder<T extends Builder<T>> {

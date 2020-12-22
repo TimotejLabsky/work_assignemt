@@ -1,7 +1,7 @@
 package com.labsky.timotej.model.products.promotions;
 
-import com.labsky.timotej.model.Basket;
 import com.labsky.timotej.model.products.Product;
+import com.labsky.timotej.util.ProductCountPair;
 
 /**
  * @author timotej
@@ -14,7 +14,9 @@ public class Discount implements SalePromotion {
     }
 
     @Override
-    public void apply(Product product, Basket basket) {
+    public void apply(ProductCountPair productCountPair) {
+        Product product = productCountPair.product();
+        
         Double newPrice = product.getPrice();
         product.setPrice(newPrice * discount());
     }

@@ -1,5 +1,9 @@
 package com.labsky.timotej.model.products;
 
+import com.labsky.timotej.model.products.promotions.SalePromotion;
+
+import java.util.List;
+
 /**
  * @author timotej
  */
@@ -8,8 +12,8 @@ public class Insurance extends Product {
     public Insurance() {
     }
 
-    public Insurance(String name, Double price, String currency) {
-        super(name, price, currency);
+    public Insurance(String name, Double price, String currency, List<SalePromotion> salePromotions) {
+        super(name, price, currency, salePromotions);
     }
 
     public static class Builder extends Product.Builder<Builder> {
@@ -21,7 +25,7 @@ public class Insurance extends Product {
 
         @Override
         public Insurance build() {
-            return new Insurance(this.name, this.price, this.currency);
+            return new Insurance(this.name, this.price, this.currency, this.salePromotions);
         }
     }
 
