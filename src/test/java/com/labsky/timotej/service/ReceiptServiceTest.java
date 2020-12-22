@@ -6,6 +6,7 @@ import com.labsky.timotej.model.products.GenericProduct;
 import com.labsky.timotej.model.products.Insurance;
 import com.labsky.timotej.model.products.Product;
 import com.labsky.timotej.service.impl.ReceiptServiceImpl;
+import com.labsky.timotej.util.ProductCountPair;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -74,7 +75,13 @@ class ReceiptServiceTest {
 
         Receipt receipt = receiptService.getReceipt(basket);
 
-        assertNotNull(receipt.getProducts(), "products should not be null");
-        assertTrue(receipt.getProducts().containsAll(mockProducts), "all products should be in final receipt");
+        assertNotNull(receipt.products(), "products should not be null");
+
+        assertEquals(mockProducts.size(), receipt.products().size(), "number of products in receipt should be same as mockProducts");
+        receipt.products().stream()
+                .map(ProductCountPair::product)
+                .forEach(p -> {
+                    assertTrue(mockProducts.contains(p), "each product in receipt should be in mock Products");
+                });
     }
 }

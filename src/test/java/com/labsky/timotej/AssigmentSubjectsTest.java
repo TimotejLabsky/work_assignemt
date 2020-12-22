@@ -52,12 +52,12 @@ class AssigmentSubjectsTest {
         var basket = assertDoesNotThrow(() -> new Basket("SIM card"));
 
         // add buy one get one for free promotion to product
-        basket.getProducts().get(0).getSalePromotions().add(new BuyOneGetOneForFree());
+        basket.getProducts().get(0).product().getSalePromotions().add(new BuyOneGetOneForFree());
 
         var receipt = receiptService.getReceipt(basket);
 
-        assertEquals(2, receipt.getProducts().size(), "receipt should have 2 SIM cards because of BOGOFF");
-        assertEquals(basket.getProducts().get(0).getPrice(), receipt.getTotal(), "total should be same same as cost of one SIM card");
+        assertEquals(2, receipt.products().size(), "receipt should have 2 SIM cards because of BOGOFF");
+        assertEquals(basket.getProducts().get(0).product().getPrice(), receipt.getTotal(), "total should be same same as cost of one SIM card");
     }
 
     //    @Test
