@@ -34,7 +34,7 @@ class ReceiptServiceTest {
 
     @BeforeAll
     public static void init() {
-        receiptService = new ReceiptServiceImpl();
+        receiptService = new ReceiptServiceImpl(null, null);
     }
 
     @BeforeEach

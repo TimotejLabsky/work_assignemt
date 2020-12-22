@@ -11,6 +11,7 @@ import com.labsky.timotej.model.ProductCountPair;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import static java.util.UUID.randomUUID;
 import static java.util.stream.Collectors.toList;
@@ -19,6 +20,14 @@ import static java.util.stream.Collectors.toList;
  * @author timotej
  */
 public class ReceiptServiceImpl implements ReceiptService {
+    public final UUID cashRegisterUuid;
+    public static UUID contractorUuid;
+
+    public ReceiptServiceImpl(UUID cashRegisterUuid, UUID contractorUuid) {
+        this.cashRegisterUuid = cashRegisterUuid;
+        ReceiptServiceImpl.contractorUuid = contractorUuid;
+    }
+
     @Override
     public Receipt getReceipt(Basket basket) throws ConstrainValidationException {
 
@@ -27,14 +36,14 @@ public class ReceiptServiceImpl implements ReceiptService {
         applyValidation(basket);
 
         return new Receipt(basket.getProducts(),
-                null, // TODO constant
+                this.cashRegisterUuid,
                 LocalDateTime.now(),
                 getTotal(basket),
                 randomUUID(),
-                null); // TODO constant
+                contractorUuid);
     }
 
-    private void applyValidation(Basket basket) throws ConstrainValidationException {
+    private static void applyValidation(Basket basket) throws ConstrainValidationException {
         List<Constrain> productToValidate = basket.getProducts().stream()
                 .map(ProductCountPair::product)
                 .filter(Constrain.class::isInstance)
@@ -46,15 +55,14 @@ public class ReceiptServiceImpl implements ReceiptService {
         }
     }
 
-
-    private void applyTax(Basket basket) {
+    private static void applyTax(Basket basket) {
         basket.getProducts().stream()
                 .map(ProductCountPair::product)
                 .filter(HasTax.class::isInstance)
                 .forEach(p -> p.setPrice(((HasTax) p).getTax() + p.getPrice()));
     }
 
-    private void applySale(Basket basket) {
+    private static void applySale(Basket basket) {
         for (int i = 0; i < basket.getProducts().size(); i++) {
             ProductCountPair productCountPair = basket.getProducts().get(i);
             for (int j = 0; j < productCountPair.product().getSalePromotions().size(); j++) {

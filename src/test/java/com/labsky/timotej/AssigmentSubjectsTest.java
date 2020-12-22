@@ -43,7 +43,7 @@ class AssigmentSubjectsTest {
     @BeforeAll
     public static void init() {
         productService = new ProductServiceImpl(productRepository);
-        receiptService = new ReceiptServiceImpl();
+        receiptService = new ReceiptServiceImpl(null, null);
     }
 
     @BeforeEach
