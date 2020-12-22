@@ -3,6 +3,7 @@ package com.labsky.timotej.model.products;
 import com.labsky.timotej.model.products.constraints.HasTax;
 import com.labsky.timotej.model.products.promotions.SalePromotion;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -33,6 +34,6 @@ public class GenericProduct extends Product implements HasTax {
 
     @Override
     public Double getTax() {
-        return (this.price * Double.valueOf(TAX_RATE));
+        return BigDecimal.valueOf(this.price).multiply(TAX_RATE).doubleValue();
     }
 }

@@ -62,7 +62,7 @@ class AssigmentSubjectsTest {
 
         assertNotNull(product, "product should not be empty");
         assertTrue(product instanceof SimCard, "String \"Sim card\" should represent insurance");
-        assertEquals(2.4d, ((SimCard) product).getTax(), "tax should be on ");
+        assertEquals(2.688d, ((SimCard) product).getTax(), "tax should be on ");
     }
 
     @Test

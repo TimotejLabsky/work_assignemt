@@ -72,7 +72,7 @@ public class Basket {
 
 
     public List<ProductCountPair> remove(Product product) {
-        this.products.removeIf(keyValue -> keyValue.getKey() == product);
+        this.products.removeIf(keyValue -> keyValue.product() == product);
         return this.products;
     }
 
