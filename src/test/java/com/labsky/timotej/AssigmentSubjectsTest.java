@@ -73,7 +73,7 @@ class AssigmentSubjectsTest {
 
         var receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket));
 
-        assertEquals(2, receipt.products().get(0).count(), "receipt should have 2 SIM cards because of BOGOFF");
+        assertEquals(2, receipt.products().get(productWithoutTax), "receipt should have 2 SIM cards because of BOGOFF");
         assertEquals(ONE_PRODUCT_PRICE, receipt.getTotal(), "total should be same same as cost of one SIM card");
     }
 
@@ -87,7 +87,7 @@ class AssigmentSubjectsTest {
 
         var receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket));
 
-        assertEquals(COUNT_OF_PRODUCTS_IN * 2, receipt.products().get(0).count(), "receipt should have 2 SIM cards because of BOGOFF");
+        assertEquals(COUNT_OF_PRODUCTS_IN * 2, receipt.products().get(productWithoutTax), "receipt should have 2 SIM cards because of BOGOFF");
         assertEquals(ONE_PRODUCT_PRICE * COUNT_OF_PRODUCTS_IN, receipt.getTotal(), "total should be same same as cost of one SIM card");
     }
 
@@ -132,8 +132,7 @@ class AssigmentSubjectsTest {
         assertDoesNotThrow(() -> receiptService.getReceipt(basket),
                 "should NOT throw error because number of number of products is less than it should be");
 
-        basket.getProducts().get(0).setCount(11);
-
+        basket.getProducts().computeIfPresent(product, (p, c) -> c = 11);
         assertThrows(SimCardCountRestrictionException.class, () -> receiptService.getReceipt(basket),
                 "should throw error because number of number of products is higher than it should be");
     }

@@ -7,10 +7,12 @@ import com.labsky.timotej.model.products.Product;
 import com.labsky.timotej.model.products.constraints.Constrain;
 import com.labsky.timotej.model.products.constraints.HasTax;
 import com.labsky.timotej.service.ReceiptService;
-import com.labsky.timotej.model.ProductCountPair;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static java.util.UUID.randomUUID;
@@ -38,14 +40,12 @@ public class ReceiptServiceImpl implements ReceiptService {
         return new Receipt(basket.getProducts(),
                 this.cashRegisterUuid,
                 LocalDateTime.now(),
-                getTotal(basket),
                 randomUUID(),
                 contractorUuid);
     }
 
     private static void applyValidation(Basket basket) throws ConstrainValidationException {
-        List<Constrain> productToValidate = basket.getProducts().stream()
-                .map(ProductCountPair::product)
+        List<Constrain> productToValidate = basket.getProducts().keySet().stream()
                 .filter(Constrain.class::isInstance)
                 .map(Constrain.class::cast)
                 .collect(toList());
@@ -56,26 +56,17 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     private static void applyTax(Basket basket) {
-        basket.getProducts().stream()
-                .map(ProductCountPair::product)
+        basket.getProducts().keySet().stream()
                 .filter(HasTax.class::isInstance)
                 .forEach(p -> p.setPrice(((HasTax) p).getTax() + p.getPrice()));
     }
 
     private static void applySale(Basket basket) {
-        for (int i = 0; i < basket.getProducts().size(); i++) {
-            ProductCountPair productCountPair = basket.getProducts().get(i);
-            for (int j = 0; j < productCountPair.product().getSalePromotions().size(); j++) {
-                productCountPair.product().getSalePromotions().get(j).apply(productCountPair);
+        for (Product product : basket.getProducts().keySet()) {
+            for (int j = 0; j < product.getSalePromotions().size(); j++) {
+                product.getSalePromotions().get(j).apply(product, basket);
             }
         }
-    }
-
-    private static Double getTotal(Basket basket) {
-        return basket.getProducts().stream()
-                .map(ProductCountPair::product)
-                .mapToDouble(Product::getPrice)
-                .sum();
     }
 
 

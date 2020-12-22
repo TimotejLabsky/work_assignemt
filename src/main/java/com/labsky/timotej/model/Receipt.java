@@ -1,24 +1,25 @@
 package com.labsky.timotej.model;
 
+import com.labsky.timotej.model.products.Product;
+
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
  * @author timotej
  */
 public record Receipt(
-        List<ProductCountPair> products,
+        Map<Product, Integer> products,
         UUID cashRegisterUuid,
         LocalDateTime time,
-        Double total,
         UUID uuid,
         UUID contractorUui) {
 
 
     public Double getTotal() {
-        return products.stream()
-                .mapToDouble(p -> p.product().getPrice() * p.count())
+        return products.entrySet().stream()
+                .mapToDouble(e -> e.getKey().getPrice() * e.getValue())
                 .sum();
     }
 
@@ -29,7 +30,6 @@ public record Receipt(
                 "products=" + products +
                 ", casRegisterUuid=" + cashRegisterUuid +
                 ", time=" + time +
-                ", total=" + total +
                 ", uuid=" + uuid +
                 ", contractorUui=" + contractorUui +
                 '}';

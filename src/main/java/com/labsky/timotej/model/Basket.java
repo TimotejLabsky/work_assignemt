@@ -6,10 +6,11 @@ import com.labsky.timotej.repository.impl.ProductRepositoryImpl;
 import com.labsky.timotej.service.ProductService;
 import com.labsky.timotej.service.impl.ProductServiceImpl;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author timotej
@@ -17,14 +18,14 @@ import java.util.List;
 public class Basket {
     private static final ProductService productService = new ProductServiceImpl(ProductRepositoryImpl.getInstance());
 
-    private final List<ProductCountPair> products;
+    private final Map<Product, Integer> products;
 
     public Basket() {
-        this.products = new ArrayList<>();
+        this.products = new HashMap<>();
     }
 
     public Basket(List<String> productNames) {
-        this.products = new ArrayList<>();
+        this.products = new HashMap<>();
         this.addAll(productService.findAllByName(productNames));
     }
 
@@ -38,45 +39,46 @@ public class Basket {
         return Arrays.asList(productsString.split("\\r?\\n"));
     }
 
-    public List<ProductCountPair> getProducts() {
+    public Map<Product, Integer> getProducts() {
         return products;
     }
 
 
-    public List<ProductCountPair> add(Product product, int count) {
-        this.products.add(new ProductCountPair(product, count));
+    public Map<Product, Integer> add(Product product, int count) {
+        //words.merge("hello", 1, Integer::sum);
+        products.merge(product, count, Integer::sum);
         return this.products;
     }
 
-    public List<ProductCountPair> add(Product product) {
+    public Map<Product, Integer> add(Product product) {
         return this.add(product, 1);
     }
 
-    public List<ProductCountPair> add(String productName, int count) throws ProductNotFoundException {
+    public Map<Product, Integer> add(String productName, int count) throws ProductNotFoundException {
         Product product = productService.findByName(productName);
         this.add(product, count);
 
         return this.products;
     }
 
-    public List<ProductCountPair> add(String productName) throws ProductNotFoundException {
+    public Map<Product, Integer> add(String productName) throws ProductNotFoundException {
         return this.add(productName, 1);
     }
 
 
-    public List<ProductCountPair> addAll(Collection<Product> products) {
+    public Map<Product, Integer> addAll(Collection<Product> products) {
         products.forEach(this::add);
 
         return this.products;
     }
 
 
-    public List<ProductCountPair> remove(Product product) {
-        this.products.removeIf(keyValue -> keyValue.product() == product);
+    public Map<Product, Integer> remove(Product product) {
+        this.products.remove(product);
         return this.products;
     }
 
-    public List<ProductCountPair> remove(String productName) throws ProductNotFoundException {
+    public Map<Product, Integer> remove(String productName) throws ProductNotFoundException {
         Product product = productService.findByName(productName);
 
         return this.remove(product);

@@ -4,7 +4,6 @@ import com.labsky.timotej.exceptions.SimCardCountRestrictionException;
 import com.labsky.timotej.model.Basket;
 import com.labsky.timotej.model.products.constraints.Constrain;
 import com.labsky.timotej.model.products.promotions.SalePromotion;
-import com.labsky.timotej.model.ProductCountPair;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,11 +23,8 @@ public class SimCard extends GenericProduct implements Constrain {
 
     @Override
     public boolean isValid(Basket basket) throws SimCardCountRestrictionException {
-        Optional<ProductCountPair> thisProductCountPair = basket.getProducts().stream()
-                .filter(pcp -> pcp.product() == this)
-                .findFirst();
-        if (thisProductCountPair.isPresent() && thisProductCountPair.get().count() > MAX_NUMBER_IN_BASKET) {
-            throw new SimCardCountRestrictionException("number of sim is higher than allowed %d > %d".formatted(thisProductCountPair.get().count(), MAX_NUMBER_IN_BASKET));
+        if (basket.getProducts().get(this) > MAX_NUMBER_IN_BASKET) {
+            throw new SimCardCountRestrictionException("number of sim is higher than allowed %d > %d".formatted(basket.getProducts().get(this), MAX_NUMBER_IN_BASKET));
         }
 
         return true;

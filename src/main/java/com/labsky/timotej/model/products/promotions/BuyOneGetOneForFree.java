@@ -1,6 +1,7 @@
 package com.labsky.timotej.model.products.promotions;
 
-import com.labsky.timotej.model.ProductCountPair;
+import com.labsky.timotej.model.Basket;
+import com.labsky.timotej.model.products.Product;
 
 import java.util.Collection;
 
@@ -10,15 +11,14 @@ import java.util.Collection;
 public class BuyOneGetOneForFree implements SalePromotion {
 
     @Override
-    public void apply(ProductCountPair productCountPair) {
-        productCountPair.setCount(productCountPair.count() * 2);
+    public void apply(Product product, Basket basket) {
+        basket.getProducts().computeIfPresent(product, (p, c) -> c *= 2);
 
-        if (!containsBuyOneGetOneForFreeDiscount(productCountPair.product().getSalePromotions())) {
+        if (!containsBuyOneGetOneForFreeDiscount(product.getSalePromotions())) {
             SalePromotion promotion = new BuyOneGetOneForFreeDiscount();
-            productCountPair.product().getSalePromotions().add(promotion);
+            product.getSalePromotions().add(promotion);
         }
     }
-
 
     private boolean containsBuyOneGetOneForFreeDiscount(Collection<SalePromotion> promotions) {
         return promotions.stream()
