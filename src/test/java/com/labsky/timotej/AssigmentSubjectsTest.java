@@ -3,15 +3,9 @@ package com.labsky.timotej;
 import com.labsky.timotej.exceptions.SimCardCountRestrictionException;
 import com.labsky.timotej.model.Basket;
 import com.labsky.timotej.model.products.*;
-import com.labsky.timotej.model.products.constraints.HasTax;
 import com.labsky.timotej.model.products.promotions.BuyOneGetOneForFree;
-import com.labsky.timotej.model.products.promotions.Discount;
 import com.labsky.timotej.model.products.promotions.InsuranceDiscount;
-import com.labsky.timotej.repository.ProductRepository;
-import com.labsky.timotej.repository.impl.ProductRepositoryImpl;
-import com.labsky.timotej.service.ProductService;
 import com.labsky.timotej.service.ReceiptService;
-import com.labsky.timotej.service.impl.ProductServiceImpl;
 import com.labsky.timotej.service.impl.ReceiptServiceImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,14 +13,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.ThrowingSupplier;
 
 import java.math.BigDecimal;
-import java.util.GregorianCalendar;
 
 import static com.labsky.timotej.model.products.constraints.HasTax.TAX_RATE;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author timotej
@@ -67,6 +56,38 @@ class AssigmentSubjectsTest {
 
         assertNotNull(product, "product should not be empty");
         assertEquals(PRODUCT_TAX_PRICE_INCREASE, ((GenericProduct) product).getTax(), "tax should be on ");
+    }
+
+    /**
+     * three products - two with tax, one without
+     */
+    @Test
+    void testTaxMoreProducts() {
+        final double PRODUCT_PRICE = 10d;
+        final double PRODUCT_TAX_PRICE_INCREASE = TAX_RATE.multiply(BigDecimal.valueOf(PRODUCT_PRICE)).doubleValue();
+        final double FINAL_PRICE = 3 * PRODUCT_PRICE + 2 * PRODUCT_TAX_PRICE_INCREASE;
+
+
+        var productWithTax0 = GenericProduct.builder()
+                .name("Generic product has TAX")
+                .price(PRODUCT_PRICE)
+                .build();
+
+        var productWithTax1 = GenericProduct.builder()
+                .name("Generic product has TAX")
+                .price(PRODUCT_PRICE)
+                .build();
+        var productWithoutTax = Insurance.builder()
+                .name("Insurance has no TAX")
+                .price(PRODUCT_PRICE)
+                .build();
+
+        basket.add(productWithTax0);
+        basket.add(productWithTax1);
+        basket.add(productWithoutTax);
+
+        var receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket));
+        assertEquals(FINAL_PRICE, receipt.getTotal());
     }
 
     @Test

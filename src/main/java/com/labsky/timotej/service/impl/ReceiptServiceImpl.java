@@ -58,6 +58,12 @@ public class ReceiptServiceImpl implements ReceiptService {
                 .forEach(p -> p.setPrice(((HasTax) p).getTax() + p.getPrice()));
     }
 
+    /**
+     * current implementation will chain all sales = if product discounted by 20% and has another 30% dicount
+     * it will discount it by 20% and the discounted price will be discounted by another 30%
+     *
+     * @param basket
+     */
     private static void applySale(Basket basket) {
         for (Product product : basket.getProducts().keySet()) {
             for (int j = 0; j < product.getSalePromotions().size(); j++) {
