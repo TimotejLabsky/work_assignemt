@@ -89,7 +89,7 @@ public class Printer {
         int count = products.get(product);
         return """
                 %s
-                \t%d pcs\t\t%.2f %s\t\t%.2f %s
+                \t%d pcs\t%.2f %s\t%.2f %s
                 """.formatted(product.getName(),
                 count,
                 product.getPrice(),
