@@ -1,5 +1,6 @@
 package com.labsky.timotej;
 
+import com.labsky.timotej.exceptions.BasketValidationException;
 import com.labsky.timotej.model.Basket;
 import com.labsky.timotej.model.products.Earphones;
 import com.labsky.timotej.model.products.GenericProduct;
@@ -10,6 +11,7 @@ import com.labsky.timotej.model.products.promotions.BuyOneGetOneForFree;
 import com.labsky.timotej.model.products.promotions.InsuranceDiscount;
 import com.labsky.timotej.service.ReceiptService;
 import com.labsky.timotej.service.impl.ReceiptServiceImpl;
+import com.labsky.timotej.util.validation.definition.BasketValidation;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -193,7 +195,7 @@ class AssignmentSubjectsTest {
                 "should NOT throw error because number of number of products is less than it should be");
 
         basket.getProducts().computeIfPresent(product, (p, c) -> c = 11);
-        assertThrows(ConstrainValidationException.class, () -> receiptService.getReceipt(basket),
+        assertThrows(BasketValidationException.class, () -> receiptService.getReceipt(basket),
                 "should throw error because number of number of products is higher than it should be");
     }
 }
