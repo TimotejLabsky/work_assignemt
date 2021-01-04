@@ -96,7 +96,8 @@ class E2eTest {
 
         cashRegister.checkout(basket);
 
-        assertTrue(outContent.size() > 0, "should output something");
+        basket.getProducts().forEach((product, count) ->
+                assertTrue(outContent.toString().contains(product.getName()), "should output something"));
     }
 
 }
