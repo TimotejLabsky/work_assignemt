@@ -5,6 +5,6 @@ package com.labsky.timotej.exceptions;
  */
 public class ProductNotFoundException extends Exception{
     public ProductNotFoundException(String message) {
-        super(message);
+        super("Product not found Exception " + message);
     }
 }
