@@ -2,6 +2,7 @@ package com.labsky.timotej.model.products;
 
 import com.labsky.timotej.model.constants.ProductTypes;
 import com.labsky.timotej.model.constants.ProductsFileFields;
+import com.labsky.timotej.model.products.promotions.InsuranceDiscount;
 
 import static java.lang.Double.parseDouble;
 
@@ -28,7 +29,7 @@ public class ProductFactory {
                     .name(productFields[ProductsFileFields.NAME])
                     .price(parseDouble(productFields[ProductsFileFields.PRICE]))
                     .currency(productFields[ProductsFileFields.CURRENCY])
-                    //.salePromotions(new Discount(Double.valueOf(20.0d))) // TODO not hardcode it like this
+                    .salePromotions(new InsuranceDiscount())
                     .build();
             case ProductTypes.EARPHONES -> Earphones.builder()
                     .name(productFields[ProductsFileFields.NAME])

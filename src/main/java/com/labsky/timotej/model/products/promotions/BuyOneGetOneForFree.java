@@ -10,6 +10,13 @@ import java.util.Collection;
  */
 public class BuyOneGetOneForFree implements SalePromotion {
 
+    /**
+     * The sale is computed at checkout - 50 % discount on all and double the amount of products
+     * will satisfy the BOGOF requirement
+     *
+     * @param product
+     * @param basket
+     */
     @Override
     public void apply(Product product, Basket basket) {
         basket.getProducts().computeIfPresent(product, (p, c) -> c *= 2);
@@ -26,6 +33,9 @@ public class BuyOneGetOneForFree implements SalePromotion {
 
     }
 
+    /**
+     * special discount only for BOGOF
+     */
     class BuyOneGetOneForFreeDiscount extends Discount {
 
         public BuyOneGetOneForFreeDiscount() {

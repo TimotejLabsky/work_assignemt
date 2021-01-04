@@ -18,7 +18,7 @@ import static java.lang.System.out;
 public class CashRegisterImpl implements CashRegister {
 
     private final ReceiptService receiptService;
-    public static UUID contractorUuid = UUID.randomUUID();
+    public static final UUID contractorUuid = UUID.randomUUID();
 
 
     public CashRegisterImpl() {
@@ -27,7 +27,8 @@ public class CashRegisterImpl implements CashRegister {
 
     @Override
     public void checkout(Basket basket) {
-        Receipt receipt = null;
+        Receipt receipt;
+
         try {
             receipt = receiptService.getReceipt(basket);
         } catch (ConstrainValidationException e) {
