@@ -33,7 +33,7 @@ public class BigShop {
         BigShop bigShop = new BigShop();
 
         if (Arrays.asList(args).contains(INTERACTIVE_MODE)) {
-            out.println("Might be implemented");
+            throw new UnsupportedOperationException("this might be implemented in future");
         } else {
             bigShop.nonInteractive(args);
 

@@ -19,7 +19,7 @@ public class Discount implements SalePromotion {
     }
 
     private Double discount() {
-        return discountPercentage / 100;
+        return 1 - discountPercentage / 100;
     }
 
 }

@@ -2,11 +2,11 @@ package com.labsky.timotej;
 
 import com.labsky.timotej.exceptions.SimCardCountRestrictionException;
 import com.labsky.timotej.model.Basket;
-import com.labsky.timotej.model.products.Insurance;
-import com.labsky.timotej.model.products.Product;
-import com.labsky.timotej.model.products.SimCard;
+import com.labsky.timotej.model.products.*;
+import com.labsky.timotej.model.products.constraints.HasTax;
 import com.labsky.timotej.model.products.promotions.BuyOneGetOneForFree;
 import com.labsky.timotej.model.products.promotions.Discount;
+import com.labsky.timotej.model.products.promotions.InsuranceDiscount;
 import com.labsky.timotej.repository.ProductRepository;
 import com.labsky.timotej.repository.impl.ProductRepositoryImpl;
 import com.labsky.timotej.service.ProductService;
@@ -18,6 +18,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.ThrowingSupplier;
 
+import java.math.BigDecimal;
+import java.util.GregorianCalendar;
+
+import static com.labsky.timotej.model.products.constraints.HasTax.TAX_RATE;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -30,19 +34,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class AssigmentSubjectsTest {
 
     public final double ONE_PRODUCT_PRICE = 10d;
-    // half of price
-    public final double DISCOUNT_PERCENTAGE = 50d;
 
-    private static ProductService productService;
     private static ReceiptService receiptService;
-    private static final ProductRepository productRepository = ProductRepositoryImpl.getInstance();
 
     private Product productWithoutTax;
     private Basket basket;
 
     @BeforeAll
     public static void init() {
-        productService = new ProductServiceImpl(productRepository);
         receiptService = new ReceiptServiceImpl(null, null);
     }
 
@@ -58,11 +57,16 @@ class AssigmentSubjectsTest {
 
     @Test
     void testTax() {
-        Product product = assertDoesNotThrow(() -> productService.findByName("SIM card"));
+        final double PRODUCT_PRICE = 10d;
+        final double PRODUCT_TAX_PRICE_INCREASE = TAX_RATE.multiply(BigDecimal.valueOf(PRODUCT_PRICE)).doubleValue();
+
+        var product = GenericProduct.builder()
+                .name("Generic product has TAX")
+                .price(PRODUCT_PRICE)
+                .build();
 
         assertNotNull(product, "product should not be empty");
-        assertTrue(product instanceof SimCard, "String \"Sim card\" should represent insurance");
-        assertEquals(2.688d, ((SimCard) product).getTax(), "tax should be on ");
+        assertEquals(PRODUCT_TAX_PRICE_INCREASE, ((GenericProduct) product).getTax(), "tax should be on ");
     }
 
     @Test
@@ -93,30 +97,41 @@ class AssigmentSubjectsTest {
 
 
     @Test
-    void testInsuranceDiscount_one() {
+    void testInsuranceDiscountWhenEarphonesPurchased() {
         final double ONE_PRODUCT_PRICE = 10d;
-        // half of price
-        final double DISCOUNT_PERCENTAGE = 50d;
 
+        var earphones = Earphones.builder()
+                .name("Earphones")
+                .price(ONE_PRODUCT_PRICE)
+                .build();
+        var insurance = Insurance.builder()
+                .name("Insurance")
+                .price(ONE_PRODUCT_PRICE)
+                .salePromotions(new InsuranceDiscount())
+                .build();
 
-        productWithoutTax.addSalePromotion(new Discount(DISCOUNT_PERCENTAGE));
-        basket.add(productWithoutTax);
+        basket.add(earphones);
+        basket.add(insurance);
 
         var receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket));
 
-        assertEquals(ONE_PRODUCT_PRICE / 2, receipt.getTotal(), "total should be half of products price");
+        assertEquals(ONE_PRODUCT_PRICE * .8d, insurance.getPrice(), "total should be half of products price");
     }
 
     @Test
-    void testInsuranceDiscount_multiple() {
+    void testInsuranceNotDiscountedWhenEarphonesNotPurchased() {
         final int COUNT = 4;
 
-        productWithoutTax.addSalePromotion(new Discount(DISCOUNT_PERCENTAGE));
-        basket.add(productWithoutTax, COUNT);
+        var insurance = Insurance.builder()
+                .name("Insurance")
+                .price(ONE_PRODUCT_PRICE)
+                .build();
+
+        basket.add(insurance, COUNT);
 
         var receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket));
 
-        assertEquals(COUNT * ONE_PRODUCT_PRICE / 2, receipt.getTotal(), "total should be half of products price");
+        assertEquals(COUNT * ONE_PRODUCT_PRICE, receipt.getTotal(), "total should be half of products price");
     }
 
     @Test
