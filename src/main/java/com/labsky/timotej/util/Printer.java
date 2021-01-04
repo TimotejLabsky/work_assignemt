@@ -46,15 +46,15 @@ public class Printer {
                 Employee:
                 \tname: %s
                 \temail: timotej.labsky@aardwark.com
-                ---------------------------------------
+                -------------------------------------------
                 Cash register id: 
                 %s
                 Date: %s
-                ---------------------------------------
+                -------------------------------------------
                 %s
-                ---------------------------------------
+                -------------------------------------------
                 TOTAL:
-                %.2f
+                \t%.2f
                 """.formatted(
                 centerMultiLine(LOGO),
                 centerMultiLine(companyAddress),

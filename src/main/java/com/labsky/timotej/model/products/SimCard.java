@@ -6,7 +6,6 @@ import com.labsky.timotej.model.products.constraints.Constrain;
 import com.labsky.timotej.model.products.promotions.SalePromotion;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author timotej

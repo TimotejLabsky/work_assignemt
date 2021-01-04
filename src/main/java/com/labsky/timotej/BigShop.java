@@ -12,7 +12,6 @@ import com.labsky.timotej.service.impl.ProductServiceImpl;
 import java.util.Arrays;
 
 import static java.lang.System.err;
-import static java.lang.System.out;
 
 /**
  * @author timotej

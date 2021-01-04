@@ -3,14 +3,11 @@ package com.labsky.timotej;
 import com.labsky.timotej.model.Basket;
 import com.labsky.timotej.model.products.Insurance;
 import com.labsky.timotej.model.products.promotions.Discount;
-import com.labsky.timotej.model.products.promotions.InsuranceDiscount;
 import com.labsky.timotej.service.ReceiptService;
 import com.labsky.timotej.service.impl.ReceiptServiceImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.Base64;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
