@@ -44,7 +44,7 @@ Tests:
 ## Compilation & Running ##
 
 ### Compilation ###
-(Bash scripts not implemented and tested for windows !!)
+(Bash scripts should work on Windows (need something to run them) - not well tested)
 * By script
     - go to folder with [scripts](./scripts)
     - run bash script - `./compile.sh`
