@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author timotej
  */
-class AssigmentSubjectsTest {
+class AssignmentSubjectsTest {
 
     private static BigDecimal productPrice;
     private static BigDecimal productTaxPriceIncrease;
