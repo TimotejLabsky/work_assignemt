@@ -30,13 +30,12 @@ public class BuyOneGetOneForFree implements SalePromotion {
     private boolean containsBuyOneGetOneForFreeDiscount(Collection<SalePromotion> promotions) {
         return promotions.stream()
                 .anyMatch(promotion -> promotion instanceof BuyOneGetOneForFreeDiscount);
-
     }
 
     /**
      * special discount only for BOGOF
      */
-    class BuyOneGetOneForFreeDiscount extends Discount {
+    static class BuyOneGetOneForFreeDiscount extends Discount {
 
         private BuyOneGetOneForFreeDiscount() {
             super(50d);

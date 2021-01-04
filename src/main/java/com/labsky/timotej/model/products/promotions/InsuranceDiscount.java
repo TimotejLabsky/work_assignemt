@@ -18,7 +18,7 @@ public class InsuranceDiscount implements  SalePromotion{
                 .anyMatch(Earphones.class::isInstance);
     }
 
-    class InsuranceDiscountWhenEarphones extends Discount{
+    static class InsuranceDiscountWhenEarphones extends Discount{
         private static final double DISCOUNT = 20d;
 
         private InsuranceDiscountWhenEarphones() {
