@@ -103,8 +103,11 @@ class AssigmentSubjectsTest {
 
         var receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket));
 
-        assertEquals(2, receipt.products().get(productWithoutTax), "receipt should have 2 SIM cards because of BOGOFF");
-        assertEquals(productPrice, receipt.getTotal(), "total should be same same as cost of one SIM card");
+        assertEquals(2, receipt.products().get(productWithoutTax),
+                "receipt should have 2 SIM cards because of BOGOFF");
+
+        assertEquals(0, receipt.getTotal().compareTo(productPrice),
+                "total should be same same as cost of one SIM card " + receipt.getTotal() + " != " + productPrice);
     }
 
     @Test
@@ -117,8 +120,10 @@ class AssigmentSubjectsTest {
 
         var receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket));
 
-        assertEquals(COUNT_OF_PRODUCTS_IN * 2, receipt.products().get(productWithoutTax), "receipt should have 2 SIM cards because of BOGOFF");
-        assertEquals(ONE_PRODUCT_PRICE * COUNT_OF_PRODUCTS_IN, receipt.getTotal(), "total should be same same as cost of one SIM card");
+        assertEquals(COUNT_OF_PRODUCTS_IN * 2, receipt.products().get(productWithoutTax),
+                "receipt should have 2 SIM cards because of BOGOFF");
+        assertEquals(0, receipt.getTotal().compareTo(valueOf(ONE_PRODUCT_PRICE * COUNT_OF_PRODUCTS_IN)),
+                "total should be same same as cost of one SIM card " + receipt.getTotal() + " != " + (ONE_PRODUCT_PRICE * COUNT_OF_PRODUCTS_IN));
     }
 
 
@@ -141,7 +146,9 @@ class AssigmentSubjectsTest {
 
         var receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket));
 
-        assertEquals(productPrice.multiply(valueOf(.8d)), insurance.getPrice(), "total should be half of products price");
+        var expectedValue = productPrice.multiply(valueOf(.8d));
+        assertEquals(0, insurance.getPrice().compareTo(expectedValue),
+                "total should be half of products price " + insurance.getPrice() + " != " + expectedValue);
     }
 
     @Test
@@ -157,7 +164,9 @@ class AssigmentSubjectsTest {
 
         var receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket));
 
-        assertEquals(productPrice.multiply(BigDecimal.valueOf(COUNT)), receipt.getTotal(), "total should be half of products price");
+        var expectedValue = productPrice.multiply(BigDecimal.valueOf(COUNT));
+        assertEquals(0, receipt.getTotal().compareTo(expectedValue),
+                "total should be half of products price " + receipt.getTotal() + " != " + expectedValue);
     }
 
     @Test
