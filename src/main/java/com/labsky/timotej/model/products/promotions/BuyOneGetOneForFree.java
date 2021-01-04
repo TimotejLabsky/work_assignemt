@@ -38,7 +38,7 @@ public class BuyOneGetOneForFree implements SalePromotion {
      */
     class BuyOneGetOneForFreeDiscount extends Discount {
 
-        public BuyOneGetOneForFreeDiscount() {
+        private BuyOneGetOneForFreeDiscount() {
             super(50d);
         }
     }
