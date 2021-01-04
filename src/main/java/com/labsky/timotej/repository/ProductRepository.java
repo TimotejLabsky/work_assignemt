@@ -12,9 +12,19 @@ import java.util.Optional;
 public interface ProductRepository {
     List<Product> findAll();
 
+    /**
+     * Returns List of products (ignores not found one) by product's name
+     *
+     * @param names List of product names
+     * @return List of products
+     */
     List<Product> findAllByName(List<String> names);
 
-    Optional<Product> findByName(String name) throws ProductNotFoundException;
-
-    Product save(Product product);
+    /**
+     * Returns Optional of Product - handling of not found needs to be on higher level
+     *
+     * @param name Product name to be found
+     * @return Optional of product - empty if not found
+     */
+    Optional<Product> findByName(String name);
 }

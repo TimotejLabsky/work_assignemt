@@ -53,7 +53,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public Optional<Product> findByName(final String name) throws ProductNotFoundException {
+    public Optional<Product> findByName(final String name) {
         return this.products.stream()
                 .filter(p -> name.equals(p.getName()))
                 .findFirst();
@@ -69,11 +69,6 @@ public class ProductRepositoryImpl implements ProductRepository {
         return this.products.stream()
                 .filter(p -> names.contains(p.getName()))
                 .collect(toList());
-    }
-
-    @Override
-    public Product save(final Product product) {
-        return null;
     }
 
     private Path getFilePath() throws Exception {

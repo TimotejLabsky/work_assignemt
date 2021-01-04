@@ -20,13 +20,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findAllByName(List<String> basket) {
-        return productRepository.findAllByName(basket);
+    public List<Product> findAllByName(List<String> names) {
+        return productRepository.findAllByName(names);
     }
 
     @Override
-    public Product findByName(String product) throws ProductNotFoundException {
-        return productRepository.findByName(product).orElseThrow(() -> new ProductNotFoundException("%s".formatted(product)));
+    public Product findByName(String name) throws ProductNotFoundException {
+        return productRepository.findByName(name).orElseThrow(() -> new ProductNotFoundException("%s".formatted(name)));
     }
 
 

@@ -9,8 +9,7 @@ import com.labsky.timotej.model.Receipt;
  */
 public interface ReceiptService {
     /**
-     * returns receipt from basket after applying all necessary rules/sales and calculating
-     * prices
+     * returns receipt from basket after applying all necessary rules/sales and calculating of prices
      *
      * @param basket contains products and their count requested by user
      * @return receipt with all calculations done

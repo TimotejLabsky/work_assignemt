@@ -6,12 +6,29 @@ import com.labsky.timotej.model.products.Product;
 import java.util.List;
 
 /**
+ * Service layer over Product repository with handling of returned values - check for errors if necessary
+ * <p>
+ * Implementation is case sensitive
+ *
  * @author timotej
  */
 public interface ProductService {
-    public List<Product> findAllByName(final List<String> basket);
+    /**
+     * Returns List of products (ignores not found one) by product's name
+     *
+     * @param names List of product names
+     * @return List of products
+     */
+    List<Product> findAllByName(final List<String> names);
 
-    public Product findByName(final String product) throws ProductNotFoundException;
+    /**
+     * Returns Product if found by name or throws error
+     *
+     * @param name Product name to be found
+     * @return Product if found
+     * @throws ProductNotFoundException is thrown when product is not found by its name
+     */
+    Product findByName(final String name) throws ProductNotFoundException;
 
-    public List<Product> findAll();
+    List<Product> findAll();
 }
