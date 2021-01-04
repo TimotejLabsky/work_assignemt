@@ -16,4 +16,7 @@ product data are parsed from file - [/resources/warehouse.txt](https://github.co
 ### File format ###
 * fields are separated by: `;`
 
-`type`;`name`;`price`;`currency`;`sale_1_type`;`sale_1_arg`;`sale_2_type`;`sale_2_arg`;`sale_3`...
+`type`;`name`;`price`;`currency`;
+
+#### Feature proposal ####
+extend the file format by `sale_1_type`;`sale_1_arg` ... and remove hardcoded sales from Product Factory
