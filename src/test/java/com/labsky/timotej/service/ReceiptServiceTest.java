@@ -31,6 +31,7 @@ class ReceiptServiceTest {
 
     //MOCK DATA
     private List<Product> mockProducts;
+    private static final BigDecimal mockProductsTotalPrice = valueOf(336L);
     private Basket basket;
 
     @BeforeAll
@@ -60,7 +61,8 @@ class ReceiptServiceTest {
     void testReceiptTaxCalculation() {
         Receipt receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket));
 
-        assertEquals(0, receipt.getTotal().compareTo(valueOf(336L)), "total amount should be 300 - 3x100");
+        assertEquals(0, receipt.getTotal().compareTo(mockProductsTotalPrice),
+                "total amount should be 336 - 3x112");
     }
 
     @Test
@@ -69,7 +71,9 @@ class ReceiptServiceTest {
 
         Receipt receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket));
 
-        assertEquals(0, receipt.getTotal().compareTo(valueOf(436d)), "total amount should be 300 - 3x100");
+        var expectedValue = mockProductsTotalPrice.add(valueOf(100d));
+        assertEquals(0, receipt.getTotal().compareTo(expectedValue),
+                "total amount should be mockProductsTotalPrice + 100 - insurance does not have tax");
     }
 
 
@@ -80,12 +84,11 @@ class ReceiptServiceTest {
 
         assertNotNull(receipt.products(), "products should not be null");
 
-        assertEquals(mockProducts.size(), receipt.products().size(), "number of products in receipt should be same as mockProducts");
-        //TODO
-//        receipt.products().stream()
-//                .map(ProductCountPair::product)
-//                .forEach(p -> {
-//                    assertTrue(mockProducts.contains(p), "each product in receipt should be in mock Products");
-//                });
+        assertEquals(mockProducts.size(), receipt.products().size(),
+                "number of products in receipt should be same as mockProducts");
+
+        receipt.products().keySet()
+                .forEach(p -> assertTrue(mockProducts.contains(p),
+                        "all products should be in basket"));
     }
 }

@@ -32,9 +32,7 @@ public class Basket {
     public Basket(String productsString) {
         this(getProductNames(productsString));
     }
-
-    //TODO get product by class | name | type ?
-
+    
     private static List<String> getProductNames(String productsString) {
         return Arrays.asList(productsString.split("\\r?\\n"));
     }
