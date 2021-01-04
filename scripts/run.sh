@@ -36,13 +36,20 @@ run_unix (){
 	java --enable-preview com.labsky.timotej.BigShop "$@"	
 }
 
+run_win (){
+	cd ./$TARGET_DIR
+	echo $@
+	java --enable-preview com.labsky.timotej.BigShop "$@"	
+}
+
 case $( "${UNAME}" | tr '[:upper:]' '[:lower:]') in
   linux* | darwin*)
     printf 'linux\n' 
     run_unix "$@"
     ;;
   msys* | cygwin* | mingw* | nt|win*)
-    # or possible 'bash on windows'
+    # or possible 'bash on windowsi'
+    run_win "$@"
     printf 'windows\n'
     ;;
   *)

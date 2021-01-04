@@ -34,8 +34,8 @@ extend the file format by `sale_1_type`;`sale_1_arg` ... and remove hardcoded sa
 
 Run:
 
-* [java 14+](https://www.oracle.com/java/technologies/javase/jdk14-archive-downloads.html) support for records, switch
-  statement and text blocks
+* [java 14](https://www.oracle.com/java/technologies/javase/jdk14-archive-downloads.html) needs support for records, switch
+  statement and text blocks (currently only as preview feature in java 14) 
 
 Tests:
 
@@ -44,7 +44,7 @@ Tests:
 ## Compilation & Running ##
 
 ### Compilation ###
-(Bash scripts not implemented and tested for windows !!)
+(Bash scripts should work on Windows (need something to run them) - not well tested)
 * By script
     - go to folder with [scripts](./scripts)
     - run bash script - `./compile.sh`
