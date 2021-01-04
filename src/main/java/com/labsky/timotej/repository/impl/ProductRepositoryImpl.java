@@ -6,6 +6,8 @@ import com.labsky.timotej.model.products.ProductFactory;
 import com.labsky.timotej.repository.ProductRepository;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,14 +30,20 @@ public class ProductRepositoryImpl implements ProductRepository {
     private final List<Product> products;
 
     private ProductRepositoryImpl() {
-        Path fileUrl = getFilePath();
-
-
         products = new ArrayList<>();
+        Path fileUrl = null;
+
         try {
+            fileUrl = getFilePath();
             this.products.addAll(loadProductsFromFile(fileUrl));
+
         } catch (IOException exception) {
-            err.printf("ProductRepositoryImpl - exception in parsing file: %s%n", fileUrl);
+            err.printf("ProductRepositoryImpl - exception in parsing file: %s - %s%n", fileUrl, exception.getMessage());
+            System.exit(1);
+        } catch (Exception exception) {
+            err.printf("ProductRepositoryImpl - exception in file path: %s%n", exception.getMessage());
+            System.exit(1);
+
         }
 
     }
@@ -68,9 +76,14 @@ public class ProductRepositoryImpl implements ProductRepository {
         return null;
     }
 
-    private Path getFilePath() {
+    private Path getFilePath() throws Exception {
         URL fileUrl = ClassLoader.getSystemResource(WAREHOUSE_FILE_NAME);
-        return Path.of(fileUrl.getPath());
+
+        if (fileUrl == null) {
+            throw new Exception("Warehouse file not found in class path");
+        }
+
+        return Path.of(fileUrl.toURI());
     }
 
     private List<Product> loadProductsFromFile(final Path filePath) throws IOException {

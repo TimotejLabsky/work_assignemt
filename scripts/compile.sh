@@ -38,11 +38,20 @@ compile_unix () {
 	javac --enable-preview --release 14 -d $TARGET_DIR @sources.tmp 	
 
 	echo "copy resources..."
-	cp ./src/main/resources/*.txt $TARGET_DIR
+	cp .\src\main\resources\*.txt $TARGET_DIR
 	echo "clean tmp..."
 	rm sources.tmp
 }
 
+compile_win () {
+  	echo "compiling..."
+
+    javac --enable-preview --release 14 -d target $(find ../src/main -name *.java)
+
+    echo "copy resources..."
+    cp ../src/main/resources/*.txt $TARGET_DIR
+
+  }
 
 case $( "${UNAME}" | tr '[:upper:]' '[:lower:]') in
   linux* | darwin*)
@@ -52,6 +61,7 @@ case $( "${UNAME}" | tr '[:upper:]' '[:lower:]') in
   msys* | cygwin* | mingw* | nt|win*)
     # or possible 'bash on windows'
     printf 'windows\n'
+    compile_win
     ;;
   *)
     printf 'unkonwn'
