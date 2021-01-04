@@ -10,10 +10,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Double.parseDouble;
+import static java.math.BigDecimal.valueOf;
 import static java.util.Collections.emptyList;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,9 +41,9 @@ class ReceiptServiceTest {
     @BeforeEach
     public void initMock() {
         mockProducts = new ArrayList<>();
-        mockProducts.add(new GenericProduct("SIM card", parseDouble("100"), "CHF", emptyList()));
-        mockProducts.add(new GenericProduct("phone case", parseDouble("100"), "CHF", emptyList()));
-        mockProducts.add(new GenericProduct("SIM card", parseDouble("100"), "CHF", emptyList()));
+        mockProducts.add(new GenericProduct("SIM card", valueOf(100L), "CHF", emptyList()));
+        mockProducts.add(new GenericProduct("phone case", valueOf(100L), "CHF", emptyList()));
+        mockProducts.add(new GenericProduct("SIM card", valueOf(100L), "CHF", emptyList()));
 
         basket = new Basket();
         basket.addAll(mockProducts);
@@ -58,16 +60,16 @@ class ReceiptServiceTest {
     void testReceiptTaxCalculation() {
         Receipt receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket));
 
-        assertEquals(336d, receipt.getTotal(), "total amount should be 300 - 3x100");
+        assertEquals(0, receipt.getTotal().compareTo(valueOf(336L)), "total amount should be 300 - 3x100");
     }
 
     @Test
     void testReceiptTaxCalculationWithInsurance() {
-        basket.add(new Insurance("phone insurance", parseDouble("100"), "CHF", emptyList()));
+        basket.add(new Insurance("phone insurance", valueOf(100L), "CHF", emptyList()));
 
         Receipt receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket));
 
-        assertEquals(436d, receipt.getTotal(), "total amount should be 300 - 3x100");
+        assertEquals(0, receipt.getTotal().compareTo(valueOf(436d)), "total amount should be 300 - 3x100");
     }
 
 

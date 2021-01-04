@@ -3,6 +3,8 @@ package com.labsky.timotej.model.products.promotions;
 import com.labsky.timotej.model.Basket;
 import com.labsky.timotej.model.products.Product;
 
+import java.math.BigDecimal;
+
 /**
  * @author timotej
  */
@@ -15,11 +17,11 @@ public class Discount implements SalePromotion {
 
     @Override
     public void apply(Product product, Basket basket) {
-        product.setPrice(product.getPrice() * discount());
+        product.setPrice(product.getPrice().multiply(discount()));
     }
 
-    private Double discount() {
-        return 1 - discountPercentage / 100;
+    private BigDecimal discount() {
+        return BigDecimal.valueOf(1 - discountPercentage / 100);
     }
 
 }

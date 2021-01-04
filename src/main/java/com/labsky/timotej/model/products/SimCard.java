@@ -5,6 +5,7 @@ import com.labsky.timotej.model.Basket;
 import com.labsky.timotej.model.products.constraints.Constrain;
 import com.labsky.timotej.model.products.promotions.SalePromotion;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ public class SimCard extends GenericProduct implements Constrain {
     public SimCard() {
     }
 
-    public SimCard(String name, Double price, String currency, List<SalePromotion> salePromotions) {
+    public SimCard(String name, BigDecimal price, String currency, List<SalePromotion> salePromotions) {
         super(name, price, currency, salePromotions);
     }
 

@@ -5,7 +5,6 @@ import com.labsky.timotej.model.Basket;
 import com.labsky.timotej.model.Receipt;
 import com.labsky.timotej.model.products.Product;
 import com.labsky.timotej.model.products.constraints.Constrain;
-import com.labsky.timotej.model.products.constraints.HasTax;
 import com.labsky.timotej.service.ReceiptService;
 
 import java.time.LocalDateTime;
@@ -53,9 +52,8 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     private static void applyTax(Basket basket) {
-        basket.getProducts().keySet().stream()
-                .filter(HasTax.class::isInstance)
-                .forEach(p -> p.setPrice(((HasTax) p).getTax() + p.getPrice()));
+        basket.getProducts().keySet()
+                .forEach(p -> p.setPrice(p.getTax().add(p.getPrice())));
     }
 
     /**

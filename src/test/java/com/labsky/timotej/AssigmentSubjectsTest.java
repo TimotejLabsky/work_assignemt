@@ -14,7 +14,8 @@ import org.junit.jupiter.api.function.ThrowingSupplier;
 
 import java.math.BigDecimal;
 
-import static com.labsky.timotej.model.products.constraints.HasTax.TAX_RATE;
+import static com.labsky.timotej.util.TaxRateProvider.getTaxRate;
+import static java.math.BigDecimal.valueOf;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -22,7 +23,9 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class AssigmentSubjectsTest {
 
-    public final double ONE_PRODUCT_PRICE = 10d;
+    private static BigDecimal productPrice;
+    private static BigDecimal productTaxPriceIncrease;
+
 
     private static ReceiptService receiptService;
 
@@ -36,9 +39,12 @@ class AssigmentSubjectsTest {
 
     @BeforeEach
     public void initProductWithoutTax() {
+        productPrice = valueOf(10L);
+        productTaxPriceIncrease = productPrice.multiply(getTaxRate());
+
         this.productWithoutTax = Insurance.builder()
                 .name("BOGOFF test")
-                .price(ONE_PRODUCT_PRICE)
+                .price(productPrice)
                 .build();
         this.basket = assertDoesNotThrow((ThrowingSupplier<Basket>) Basket::new);
     }
@@ -46,16 +52,15 @@ class AssigmentSubjectsTest {
 
     @Test
     void testTax() {
-        final double PRODUCT_PRICE = 10d;
-        final double PRODUCT_TAX_PRICE_INCREASE = TAX_RATE.multiply(BigDecimal.valueOf(PRODUCT_PRICE)).doubleValue();
+        final BigDecimal PRODUCT_TAX_PRICE_INCREASE = productPrice.multiply(getTaxRate());
 
         var product = GenericProduct.builder()
                 .name("Generic product has TAX")
-                .price(PRODUCT_PRICE)
+                .price(productPrice)
                 .build();
 
         assertNotNull(product, "product should not be empty");
-        assertEquals(PRODUCT_TAX_PRICE_INCREASE, ((GenericProduct) product).getTax(), "tax should be on ");
+        assertEquals(PRODUCT_TAX_PRICE_INCREASE, product.getTax(), "tax should be on ");
     }
 
     /**
@@ -63,23 +68,23 @@ class AssigmentSubjectsTest {
      */
     @Test
     void testTaxMoreProducts() {
-        final double PRODUCT_PRICE = 10d;
-        final double PRODUCT_TAX_PRICE_INCREASE = TAX_RATE.multiply(BigDecimal.valueOf(PRODUCT_PRICE)).doubleValue();
-        final double FINAL_PRICE = 3 * PRODUCT_PRICE + 2 * PRODUCT_TAX_PRICE_INCREASE;
+
+        final BigDecimal FINAL_PRICE = productPrice.multiply(valueOf(3))
+                .add(productTaxPriceIncrease.multiply(valueOf(2)));
 
 
         var productWithTax0 = GenericProduct.builder()
                 .name("Generic product has TAX")
-                .price(PRODUCT_PRICE)
+                .price(productPrice)
                 .build();
 
         var productWithTax1 = GenericProduct.builder()
                 .name("Generic product has TAX")
-                .price(PRODUCT_PRICE)
+                .price(productPrice)
                 .build();
         var productWithoutTax = Insurance.builder()
                 .name("Insurance has no TAX")
-                .price(PRODUCT_PRICE)
+                .price(productPrice)
                 .build();
 
         basket.add(productWithTax0);
@@ -99,7 +104,7 @@ class AssigmentSubjectsTest {
         var receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket));
 
         assertEquals(2, receipt.products().get(productWithoutTax), "receipt should have 2 SIM cards because of BOGOFF");
-        assertEquals(ONE_PRODUCT_PRICE, receipt.getTotal(), "total should be same same as cost of one SIM card");
+        assertEquals(productPrice, receipt.getTotal(), "total should be same same as cost of one SIM card");
     }
 
     @Test
@@ -119,15 +124,15 @@ class AssigmentSubjectsTest {
 
     @Test
     void testInsuranceDiscountWhenEarphonesPurchased() {
-        final double ONE_PRODUCT_PRICE = 10d;
+
 
         var earphones = Earphones.builder()
                 .name("Earphones")
-                .price(ONE_PRODUCT_PRICE)
+                .price(productPrice)
                 .build();
         var insurance = Insurance.builder()
                 .name("Insurance")
-                .price(ONE_PRODUCT_PRICE)
+                .price(productPrice)
                 .salePromotions(new InsuranceDiscount())
                 .build();
 
@@ -136,7 +141,7 @@ class AssigmentSubjectsTest {
 
         var receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket));
 
-        assertEquals(ONE_PRODUCT_PRICE * .8d, insurance.getPrice(), "total should be half of products price");
+        assertEquals(productPrice.multiply(valueOf(.8d)), insurance.getPrice(), "total should be half of products price");
     }
 
     @Test
@@ -145,14 +150,14 @@ class AssigmentSubjectsTest {
 
         var insurance = Insurance.builder()
                 .name("Insurance")
-                .price(ONE_PRODUCT_PRICE)
+                .price(productPrice)
                 .build();
 
         basket.add(insurance, COUNT);
 
         var receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket));
 
-        assertEquals(COUNT * ONE_PRODUCT_PRICE, receipt.getTotal(), "total should be half of products price");
+        assertEquals(productPrice.multiply(BigDecimal.valueOf(COUNT)), receipt.getTotal(), "total should be half of products price");
     }
 
     @Test
@@ -161,7 +166,7 @@ class AssigmentSubjectsTest {
 
         var product = SimCard.builder()
                 .name("BOGOFF test")
-                .price(ONE_PRODUCT_PRICE)
+                .price(productPrice)
                 .build();
         basket.add(product, 9);
 

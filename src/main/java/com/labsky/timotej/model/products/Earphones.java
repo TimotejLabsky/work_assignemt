@@ -2,6 +2,7 @@ package com.labsky.timotej.model.products;
 
 import com.labsky.timotej.model.products.promotions.SalePromotion;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ public class Earphones extends GenericProduct {
     public Earphones() {
     }
 
-    public Earphones(String name, Double price, String currency, List<SalePromotion> promotions) {
+    public Earphones(String name, BigDecimal price, String currency, List<SalePromotion> promotions) {
         super(name, price, currency, promotions);
     }
 

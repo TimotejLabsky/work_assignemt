@@ -2,6 +2,7 @@ package com.labsky.timotej.model.products;
 
 import com.labsky.timotej.model.products.promotions.SalePromotion;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ public class Insurance extends Product {
     public Insurance() {
     }
 
-    public Insurance(String name, Double price, String currency, List<SalePromotion> salePromotions) {
+    public Insurance(String name, BigDecimal price, String currency, List<SalePromotion> salePromotions) {
         super(name, price, currency, salePromotions);
     }
 
@@ -31,5 +32,10 @@ public class Insurance extends Product {
 
     public static Builder builder() {
         return new Builder();
+    }
+
+    @Override
+    public BigDecimal getTax() {
+        return BigDecimal.ZERO;
     }
 }

@@ -22,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class ProductServiceTest {
 
     private static ProductService productService;
-    // TODO create mock service which will depend on mock data not data from warehouse.txt
     private static final int NUMBER_OF_PRODUCTS_IN_WAREHOUSE = 5;
 
     @BeforeAll

@@ -1,7 +1,9 @@
 package com.labsky.timotej.model.products;
 
 import com.labsky.timotej.model.products.promotions.SalePromotion;
+import com.labsky.timotej.util.TaxRateProvider;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,14 +13,14 @@ import java.util.List;
 public abstract class Product {
 
     protected String name;
-    protected Double price;
+    protected BigDecimal price;
     protected String currency;
     protected List<SalePromotion> salePromotions = new ArrayList<>();
 
     protected Product() {
     }
 
-    protected Product(String name, Double price, String currency, List<SalePromotion> salePromotions) {
+    protected Product(String name, BigDecimal price, String currency, List<SalePromotion> salePromotions) {
         this.name = name;
         this.price = price;
         this.currency = currency;
@@ -27,7 +29,7 @@ public abstract class Product {
 
     public abstract static class Builder<T extends Builder<T>> {
         protected String name;
-        protected Double price;
+        protected BigDecimal price;
         protected String currency;
         protected List<SalePromotion> salePromotions = new ArrayList<>();
 
@@ -38,7 +40,7 @@ public abstract class Product {
             return getThis();
         }
 
-        public T price(Double price) {
+        public T price(BigDecimal price) {
             this.price = price;
             return getThis();
         }
@@ -60,6 +62,10 @@ public abstract class Product {
         return new GenericProduct.Builder();
     }
 
+    public BigDecimal getTax() {
+        return this.price.multiply(TaxRateProvider.getTaxRate());
+    }
+
     public void addSalePromotion(SalePromotion salePromotion) {
         this.salePromotions.add(salePromotion);
     }
@@ -72,11 +78,11 @@ public abstract class Product {
         this.name = name;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

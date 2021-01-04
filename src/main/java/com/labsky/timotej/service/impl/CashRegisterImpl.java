@@ -10,7 +10,6 @@ import com.labsky.timotej.util.Printer;
 import java.util.UUID;
 
 import static java.lang.System.err;
-import static java.lang.System.out;
 
 /**
  * @author timotej
@@ -36,7 +35,6 @@ public class CashRegisterImpl implements CashRegister {
             return;
         }
 
-        out.println("Have a nice day, here is your receipt");
         Printer.print(receipt);
     }
 }

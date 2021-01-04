@@ -3,6 +3,7 @@ package com.labsky.timotej.util;
 import com.labsky.timotej.model.Receipt;
 import com.labsky.timotej.model.products.Product;
 
+import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Map;
@@ -94,12 +95,12 @@ public class Printer {
                 count,
                 product.getPrice(),
                 product.getCurrency(),
-                product.getPrice() * count,
+                product.getPrice().multiply(BigDecimal.valueOf(count)),
                 product.getCurrency()
 
         );
     }
-    
+
     private static String centerMultiLine(String s) {
         return Arrays.stream(s.split("\n"))
                 .map(Printer::center)
