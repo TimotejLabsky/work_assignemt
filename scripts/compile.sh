@@ -38,7 +38,7 @@ compile_unix () {
 	javac --enable-preview --release 14 -d $TARGET_DIR @sources.tmp 	
 
 	echo "copy resources..."
-	cp .\src\main\resources\*.txt $TARGET_DIR
+	cp ./src/main/resources/*.txt $TARGET_DIR
 	echo "clean tmp..."
 	rm sources.tmp
 }

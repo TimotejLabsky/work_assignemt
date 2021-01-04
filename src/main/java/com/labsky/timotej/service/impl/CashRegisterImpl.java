@@ -1,6 +1,6 @@
 package com.labsky.timotej.service.impl;
 
-import com.labsky.timotej.exceptions.ConstrainValidationException;
+import com.labsky.timotej.exceptions.BasketValidationException;
 import com.labsky.timotej.model.Basket;
 import com.labsky.timotej.model.Receipt;
 import com.labsky.timotej.service.CashRegister;
@@ -30,7 +30,7 @@ public class CashRegisterImpl implements CashRegister {
 
         try {
             receipt = receiptService.getReceipt(basket);
-        } catch (ConstrainValidationException e) {
+        } catch (BasketValidationException e) {
             err.printf("Basket Validation error %s%n", e.getMessage());
             return;
         }

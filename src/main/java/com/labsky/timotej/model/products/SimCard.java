@@ -1,8 +1,5 @@
 package com.labsky.timotej.model.products;
 
-import com.labsky.timotej.exceptions.SimCardCountRestrictionException;
-import com.labsky.timotej.model.Basket;
-import com.labsky.timotej.model.products.constraints.Constraint;
 import com.labsky.timotej.model.products.promotions.SalePromotion;
 
 import java.math.BigDecimal;
@@ -11,7 +8,7 @@ import java.util.List;
 /**
  * @author timotej
  */
-public class SimCard extends GenericProduct implements Constraint {
+public class SimCard extends GenericProduct {
     public static final int MAX_NUMBER_IN_BASKET = 10;
 
     public SimCard() {
@@ -21,14 +18,14 @@ public class SimCard extends GenericProduct implements Constraint {
         super(name, price, currency, salePromotions);
     }
 
-    @Override
-    public boolean isValid(Basket basket) throws SimCardCountRestrictionException {
-        if (basket.getProducts().get(this) > MAX_NUMBER_IN_BASKET) {
-            throw new SimCardCountRestrictionException("number of sim is higher than allowed %d > %d".formatted(basket.getProducts().get(this), MAX_NUMBER_IN_BASKET));
-        }
-
-        return true;
-    }
+//    @Override
+//    public boolean isValid(Basket basket) throws SimCardCountRestrictionException {
+//        if (basket.getProducts().get(this) > MAX_NUMBER_IN_BASKET) {
+//            throw new SimCardCountRestrictionException("number of sim is higher than allowed %d > %d".formatted(basket.getProducts().get(this), MAX_NUMBER_IN_BASKET));
+//        }
+//
+//        return true;
+//    }
 
     public static class Builder extends Product.Builder<Builder> {
 

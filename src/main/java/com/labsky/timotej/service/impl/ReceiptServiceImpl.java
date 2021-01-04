@@ -1,18 +1,19 @@
 package com.labsky.timotej.service.impl;
 
-import com.labsky.timotej.exceptions.ConstrainValidationException;
+import com.labsky.timotej.exceptions.BasketValidationException;
 import com.labsky.timotej.model.Basket;
 import com.labsky.timotej.model.Receipt;
 import com.labsky.timotej.model.products.Product;
-import com.labsky.timotej.model.products.constraints.Constraint;
 import com.labsky.timotej.service.ReceiptService;
+import com.labsky.timotej.util.validation.BasketValidationProvider;
+import com.labsky.timotej.util.validation.definition.BasketValidation;
+import com.labsky.timotej.util.validation.definition.Law;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static java.util.UUID.randomUUID;
-import static java.util.stream.Collectors.toList;
 
 /**
  * @author timotej
@@ -21,17 +22,18 @@ public class ReceiptServiceImpl implements ReceiptService {
     public final UUID cashRegisterUuid;
     public static UUID contractorUuid;
 
+
     public ReceiptServiceImpl(UUID cashRegisterUuid, UUID contractorUuid) {
         this.cashRegisterUuid = cashRegisterUuid;
         ReceiptServiceImpl.contractorUuid = contractorUuid;
     }
 
     @Override
-    public Receipt getReceipt(Basket basket) throws ConstrainValidationException {
+    public Receipt getReceipt(Basket basket) throws BasketValidationException {
 
         applySale(basket);
         applyTax(basket);
-        applyValidation(basket);
+        applyValidation(basket, BasketValidationProvider.getValidator());
 
         return new Receipt(basket.getProducts(),
                 this.cashRegisterUuid,
@@ -40,14 +42,11 @@ public class ReceiptServiceImpl implements ReceiptService {
                 contractorUuid);
     }
 
-    private static void applyValidation(Basket basket) throws ConstrainValidationException {
-        List<Constraint> productToValidate = basket.getProducts().keySet().stream()
-                .filter(Constraint.class::isInstance)
-                .map(Constraint.class::cast)
-                .collect(toList());
+    private static void applyValidation(final Basket basket, final BasketValidation validation) throws BasketValidationException {
+        Set<Law> violation = validation.apply(basket);
 
-        for (Constraint constrain : productToValidate) {
-            constrain.isValid(basket);
+        if (!violation.isEmpty()) {
+            throw new BasketValidationException(violation.toString());
         }
     }
 
