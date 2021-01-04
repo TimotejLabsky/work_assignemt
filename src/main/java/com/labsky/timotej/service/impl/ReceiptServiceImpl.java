@@ -4,7 +4,7 @@ import com.labsky.timotej.exceptions.ConstrainValidationException;
 import com.labsky.timotej.model.Basket;
 import com.labsky.timotej.model.Receipt;
 import com.labsky.timotej.model.products.Product;
-import com.labsky.timotej.model.products.constraints.Constrain;
+import com.labsky.timotej.model.products.constraints.Constraint;
 import com.labsky.timotej.service.ReceiptService;
 
 import java.time.LocalDateTime;
@@ -41,12 +41,12 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     private static void applyValidation(Basket basket) throws ConstrainValidationException {
-        List<Constrain> productToValidate = basket.getProducts().keySet().stream()
-                .filter(Constrain.class::isInstance)
-                .map(Constrain.class::cast)
+        List<Constraint> productToValidate = basket.getProducts().keySet().stream()
+                .filter(Constraint.class::isInstance)
+                .map(Constraint.class::cast)
                 .collect(toList());
 
-        for (Constrain constrain : productToValidate) {
+        for (Constraint constrain : productToValidate) {
             constrain.isValid(basket);
         }
     }

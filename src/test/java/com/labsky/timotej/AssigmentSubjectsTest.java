@@ -50,6 +50,7 @@ class AssigmentSubjectsTest {
     }
 
 
+    // TAXES
     @Test
     void testTax() {
         final BigDecimal PRODUCT_TAX_PRICE_INCREASE = productPrice.multiply(getTaxRate());
@@ -95,8 +96,9 @@ class AssigmentSubjectsTest {
         assertEquals(FINAL_PRICE, receipt.getTotal());
     }
 
+    // BOGOF
     @Test
-    void testSimBOGOFSimple() {
+    void testSimBOGOF() {
 
         productWithoutTax.addSalePromotion(new BuyOneGetOneForFree());
         basket.add(productWithoutTax);
@@ -127,6 +129,7 @@ class AssigmentSubjectsTest {
     }
 
 
+    // Insurance discount
     @Test
     void testInsuranceDiscountWhenEarphonesPurchased() {
 
@@ -169,6 +172,7 @@ class AssigmentSubjectsTest {
                 "total should be half of products price " + receipt.getTotal() + " != " + expectedValue);
     }
 
+    // Sim count restriction
     @Test
     void testMaxNumberOfSimsInOnePurchase() {
         var basket = assertDoesNotThrow((ThrowingSupplier<Basket>) Basket::new);

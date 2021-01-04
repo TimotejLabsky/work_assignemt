@@ -5,6 +5,8 @@ import com.labsky.timotej.model.Receipt;
 import com.labsky.timotej.model.products.GenericProduct;
 import com.labsky.timotej.model.products.Insurance;
 import com.labsky.timotej.model.products.Product;
+import com.labsky.timotej.model.products.promotions.BuyOneGetOneForFree;
+import com.labsky.timotej.model.products.promotions.Discount;
 import com.labsky.timotej.service.impl.ReceiptServiceImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,6 +33,7 @@ class ReceiptServiceTest {
 
     //MOCK DATA
     private List<Product> mockProducts;
+    private static final BigDecimal price = valueOf(10L);
     private static final BigDecimal mockProductsTotalPrice = valueOf(336L);
     private Basket basket;
 
@@ -45,18 +48,11 @@ class ReceiptServiceTest {
         mockProducts.add(new GenericProduct("SIM card", valueOf(100L), "CHF", emptyList()));
         mockProducts.add(new GenericProduct("phone case", valueOf(100L), "CHF", emptyList()));
         mockProducts.add(new GenericProduct("SIM card", valueOf(100L), "CHF", emptyList()));
-
         basket = new Basket();
         basket.addAll(mockProducts);
-
-
     }
 
 
-    /**
-     * total calculation
-     * 100 * 1.12 + 100 * 1.12 + 100 * 1.12
-     */
     @Test
     void testReceiptTaxCalculation() {
         Receipt receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket));
@@ -91,4 +87,47 @@ class ReceiptServiceTest {
                 .forEach(p -> assertTrue(mockProducts.contains(p),
                         "all products should be in basket"));
     }
+
+    @Test
+    void testSimpleDiscount() {
+        final double DISCOUNT_RATE = 20d;
+
+        var product = Insurance.builder()
+                .name("Product without taxes")
+                .price(price)
+                .salePromotions(new Discount(DISCOUNT_RATE))
+                .build();
+
+        basket.add(product);
+
+
+        var receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket), "This should not throw anything");
+
+        assertEquals(price.multiply(BigDecimal.valueOf(1 - DISCOUNT_RATE / 100)), product.getPrice(), "Product should be discounted by 20%");
+
+    }
+
+    @Test
+    void testMultipleDiscounts() {
+        final double DISCOUNT_RATE = 20d;
+
+        var product = Insurance.builder()
+                .name("Product without taxes")
+                .price(price)
+                .salePromotions(new Discount(DISCOUNT_RATE))
+                .salePromotions(new Discount(DISCOUNT_RATE))
+                .build();
+
+        basket.add(product);
+
+
+        var receipt = assertDoesNotThrow(() -> receiptService.getReceipt(basket), "This should not throw anything");
+
+        assertEquals(price.multiply(valueOf(1 - DISCOUNT_RATE / 100))
+                        .multiply(valueOf(1 - DISCOUNT_RATE / 100))
+                , product.getPrice(), "Product should be discounted by 20% and again by 20%");
+
+    }
+
+
 }

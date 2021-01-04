@@ -6,6 +6,6 @@ import com.labsky.timotej.model.Basket;
 /**
  * @author timotej
  */
-public interface Constrain {
+public interface Constraint {
     boolean isValid(Basket basket) throws ConstrainValidationException;
 }

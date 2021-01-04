@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author timotej
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class E2eTest {
+class IntegrationTest {
 
     /**
      * console out capture setup
