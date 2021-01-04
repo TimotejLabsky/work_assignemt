@@ -7,7 +7,8 @@ import com.labsky.timotej.model.Basket;
  */
 public interface CashRegister {
     /**
-     * from basket it implements all necessary steps to finish the order
+     * from basket it implements all necessary steps to finish the order might implement confirmation
+     * or overview or what ever before receipt is printed
      * @param basket
      */
     void checkout(Basket basket);
