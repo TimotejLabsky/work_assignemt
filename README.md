@@ -20,3 +20,10 @@ product data are parsed from file - [/resources/warehouse.txt](https://github.co
 
 #### Feature proposal ####
 extend the file format by `sale_1_type`;`sale_1_arg` ... and remove hardcoded sales from Product Factory
+
+## Requirements ##
+Run:
+* [java 14 +](https://www.oracle.com/java/technologies/javase/jdk14-archive-downloads.html)
+
+Tests:
+* [Maven](https://maven.apache.org/)
