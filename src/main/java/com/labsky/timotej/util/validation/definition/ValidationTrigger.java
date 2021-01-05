@@ -20,7 +20,7 @@ public interface ValidationTrigger extends Predicate<Basket> {
     ValidationTrigger simValidation = basket -> basket.getProducts().entrySet().stream()
             .filter(entry -> entry.getKey() instanceof SimCard)
             .mapToInt(Map.Entry::getValue)
-            .sum() > 10;
+            .sum() > SimCard.MAX_NUMBER_IN_BASKET;
 
     // define other Laws(predicates) here
 }

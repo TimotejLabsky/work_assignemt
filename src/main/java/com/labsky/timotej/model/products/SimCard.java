@@ -18,14 +18,6 @@ public class SimCard extends GenericProduct {
         super(name, price, currency, salePromotions);
     }
 
-//    @Override
-//    public boolean isValid(Basket basket) throws SimCardCountRestrictionException {
-//        if (basket.getProducts().get(this) > MAX_NUMBER_IN_BASKET) {
-//            throw new SimCardCountRestrictionException("number of sim is higher than allowed %d > %d".formatted(basket.getProducts().get(this), MAX_NUMBER_IN_BASKET));
-//        }
-//
-//        return true;
-//    }
 
     public static class Builder extends Product.Builder<Builder> {
 
