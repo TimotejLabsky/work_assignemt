@@ -59,3 +59,4 @@ Tests:
 * .jar file
     - go to target folder with compiled classes
     - run ` java --enable-preview com.labsky.timotej.BigShop "SIM card" "phone insurance" ...`
+
